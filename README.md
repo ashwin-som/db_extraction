@@ -5,7 +5,7 @@ This repository integrates spaCy with pre-trained SpanBERT. It is a fork from [S
 We have adapted the SpanBERT scripts to support relation extraction from general documents beyond the TACRED dataset. We extract entities using spaCy and classify relations using SpanBERT. This code has been used for the purpose of the Advanced Database Systems Course at Columbia University.
 
 ## Install Requirements
-Note: these instructions match the instructions on the class webpage. Feel free to follow those if more convenvient.
+Note: these instructions match the instructions on the class webpage. Feel free to follow those if more convenient.
 
 Do the following within your CS6111 VM instance.
 

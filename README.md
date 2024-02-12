@@ -5,16 +5,35 @@ This repository integrates spaCy with pre-trained SpanBERT. It is a fork from [S
 We have adapted the SpanBERT scripts to support relation extraction from general documents beyond the TACRED dataset. We extract entities using spaCy and classify relations using SpanBERT. This code has been used for the purpose of the Advanced Database Systems Course at Columbia University.
 
 ## Install Requirements
-First, create a conda environment running Python 3.7:
+Note: these instructions match the instructions on the class webpage. Feel free to follow those if more convenvient.
 
+Do the following within your CS6111 VM instance.
+
+1. First, install Python 3.9:
 ```bash
-conda create --name spacyspanbert python=3.7
-conda activate spacyspanbert
+sudo apt update
+sudo apt install python3.9
+sudo apt install python3.9-venv
 ```
 
-Then, install requirements and download spacy's en_core_web_lg:
+2. Then, create a virtual environment running Python 3.9:
+
 ```bash
-pip install -r requirements.txt
+python3.9 -m venv dbproj
+```
+
+3. To ensure correct installation of Python 3.9 within your virtual environment:
+```bash
+source dbproj/bin/activate
+python --version
+```
+The above should return 'Python 3.9.5'
+
+4. Within your new virtual environment, install requirements and download spacy's en_core_web_lg:
+```bash
+sudo apt-get update
+pip3 install -U pip setuptools wheel
+pip3 install -U spacy
 python3 -m spacy download en_core_web_lg
 ```
 
@@ -25,10 +44,13 @@ both the masking scheme and the training objectives.
 * Architecture: 24-layer, 1024-hidden, 16-heads, 340M parameters
 * Fine-tuning Dataset: [TACRED](https://nlp.stanford.edu/projects/tacred/) ([42 relation types](https://github.com/gkaramanolakis/SpanBERT/blob/master/relations.txt))
 
-To download the fine-tuned SpanBERT model run: 
+5. To download the fine-tuned SpanBERT model run: 
 
 ```bash
-bash ./download_finetuned.sh
+git clone https://github.com/larakaracasu/SpanBERT
+cd SpanBERT
+pip3 install -r requirements.txt
+bash download_finetuned.sh
 ```
 
 ## Run Spacy-SpanBERT 
@@ -84,4 +106,4 @@ print("Output: ", preds)
 ```
 
 ## Contact
-If you have any questions, please contact Zheng Hui `<zheng.hui@columbia.edu>`.
+If you have any questions, please contact Lara Karacasu `<lk2859@columbia.edu>` (CS6111 TA).

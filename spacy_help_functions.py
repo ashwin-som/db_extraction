@@ -24,7 +24,7 @@ def get_entities(sentence, entities_of_interest):
     return [(e.text, spacy2bert[e.label_]) for e in sentence.ents if e.label_ in spacy2bert]
 
 
-def extract_relations(doc, spanbert, entities_of_interest=None, conf=0.7):
+def extract_relations(doc, spanbert, entities_of_interest, sub_set, object_set, conf=0.7):
     num_sentences = len([s for s in doc.sents])
     print("Total # sentences = {}".format(num_sentences))
     res = defaultdict(int)
@@ -33,12 +33,21 @@ def extract_relations(doc, spanbert, entities_of_interest=None, conf=0.7):
         entity_pairs = create_entity_pairs(sentence, entities_of_interest)
         examples = []
         for ep in entity_pairs:
-            examples.append({"tokens": ep[0], "subj": ep[1], "obj": ep[2]})
-            examples.append({"tokens": ep[0], "subj": ep[2], "obj": ep[1]})
+            #only add in of meets subject and object requirements 
+            type1 = ep[1][1] #so can be something like person, location ,etc. 
+            type2 = ep[2][1] 
+            if type1 in sub_set and type2 in object_set:
+                examples.append({"tokens": ep[0], "subj": ep[1], "obj": ep[2]})
+            if type2 in sub_set and type1 in object_set:
+                examples.append({"tokens": ep[0], "subj": ep[2], "obj": ep[1]})
+            #this is my added code to see if worthwhile 
 
         preds = spanbert.predict(examples)
         for ex, pred in list(zip(examples, preds)):
-            relation = pred[0]
+            try:
+                relation = pred[0]
+            except:
+                print("sentence did not predict anything")
             if relation == 'no_relation':
                 continue
             print("\n\t\t=== Extracted Relation ===")

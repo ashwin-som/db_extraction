@@ -121,26 +121,50 @@ def main():
                     #split the text into sentences and extract named entities -> use spaCy
                     if gem_span == 'spanbert':
                         #spanbert = SpanBERT("./pretrained_spanbert") 
-                        entities_of_interest_schools = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY","UNIVERSITY","COLLEGE"]
+                        entities_of_interest_schools = ["ORGANIZATION", "PERSON"]
                         entities_of_interest_employee = ["ORGANIZATION", "PERSON"]
                         entities_of_interest_residence = ["PERSON", "LOCATION", "CITY","STATE_OR_PROVINCE", "COUNTRY"]
-                        entities_of_interest_top_employee = ["PERSON","PEOPLE","ORGANIZATION"]
+                        entities_of_interest_top_employee = ["PERSON","ORGANIZATION"]
+                        subjects = set()
+                        objects = set()
                         if r==1:#schools 
                             entities_of_interest = entities_of_interest_schools
+                            subjects.add("PERSON")
+                            objects.add("ORGANIZATION")
                         elif r==2:#works 
                             entities_of_interest = entities_of_interest_employee
+                            subjects.add("PERSON")
+                            objects.add("ORGANIZATION")
                         elif r==3:#lives 
                             entities_of_interest = entities_of_interest_residence
+                            subjects.add("PERSON")
+                            objects.add("LOCATION")
+                            objects.add("CITY")
+                            objects.add("STATE_OR_PROVINCE")
+                            objects.add("COUNTRY")
                         elif r==4:#top employee 
                             entities_of_interest = entities_of_interest_top_employee
-                        new_tuples = get_all_entities(text,entities_of_interest)
-                        #now with new tuples add them to the dictionary 
-                        for label,confidence in new_tuples: #want it to be in format of tuple -> ((entity1,entity2),confidence)
-                            if confidence > t: #can add 
-                                if label in X_extracted_tuples:
-                                    X_extracted_tuples[label] = max(X_extracted_tuples[label],confidence)
-                                else:
-                                    X_extracted_tuples[label] = confidence 
+                            subjects.add("ORGANIZATION")
+                            objects.add("PERSON")
+                        else:
+                            print("invalid input")
+
+                        nlp = spacy.load("en_core_web_lg")  
+                        doc = nlp(text)  
+                        spanbert = SpanBERT("./pretrained_spanbert")  
+                        for sentence in doc.sents:
+                            new_tuples = extract_relations(sentence,spanbert,entities_of_interest,subjects, objects, t)
+                            #now with new tuples add them to the dictionary
+                            #currently, new tuples are some sort of default dictioanyr 
+                            for label,confidence in new_tuples: #want it to be in format of tuple -> ((entity1,entity2),confidence)
+                                if confidence > t: #can add 
+                                    reversed_label= (label[1],label[0])
+                                    if label in X_extracted_tuples: #if label in 
+                                        X_extracted_tuples[label] = max(X_extracted_tuples[label],confidence)
+                                    elif reversed_label in X_extracted_tuples:#if reverse label in 
+                                        X_extracted_tuples[reversed_label] = max(X_extracted_tuples[reversed_label],confidence) 
+                                    else:#add in 
+                                        X_extracted_tuples[label] = confidence 
                     #now all new tuples added if confidence threshold met -> repeats handles by storing that with the highest confidence 
                     #if spanbert bert do: 
 

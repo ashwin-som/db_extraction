@@ -7,9 +7,12 @@ import sys
 import spacy
 #import create_entity_pairs
 from spanbert import SpanBERT
-#from spacy_help_functions import extract_relations
+from spacy_help_functions import extract_relations,get_entities,create_entity_pairs
 from example_relations import get_all_entities
 
+
+nlp = spacy.load("en_core_web_lg")
+entities_of_interest = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]
 
 '''def extract_tuples(input_text,entities_of_interest,spanbert):
     
@@ -51,6 +54,32 @@ def scrape_web(query, key, id):
     return links
 
 
+def gemini_get_candidate_pairs(sent,entities_of_interest,r):
+    ents = get_entities(sent, entities_of_interest)
+    candidate_pairs = []
+    sentence_entity_pairs = create_entity_pairs(sent, entities_of_interest)
+    for ep in sentence_entity_pairs:
+        if r==1 or r==2:
+            if ep[1]=='PERSON' and ep[2]=='ORGANIZATION':
+                candidate_pairs.append({"tokens": ep[0], "subj": ep[1], "obj": ep[2]})  # e1=Subject, e2=Object
+            elif ep[2]=='PERSON' and ep[1]=='ORGANIZATION':
+                candidate_pairs.append({"tokens": ep[0], "subj": ep[2], "obj": ep[1]})  # e1=Object, e2=Subject
+        elif r==3:
+            if ep[1]=='PERSON' and ep[2] in set(['LOCATION', 'CITY', 'STATE_OR_PROVINCE','COUNTRY']):
+                candidate_pairs.append({"tokens": ep[0], "subj": ep[1], "obj": ep[2]})
+            elif ep[2]=='PERSON' and ep[1] in set(['LOCATION', 'CITY', 'STATE_OR_PROVINCE','COUNTRY']):
+                candidate_pairs.append({"tokens": ep[0], "subj": ep[2], "obj": ep[1]})
+        elif r==4:
+            if ep[2]=='PERSON' and ep[1]=='ORGANIZATION':
+                candidate_pairs.append({"tokens": ep[0], "subj": ep[1], "obj": ep[2]})  # e1=Subject, e2=Object
+            elif ep[1]=='PERSON' and ep[2]=='ORGANIZATION':
+                candidate_pairs.append({"tokens": ep[0], "subj": ep[2], "obj": ep[1]})  # e1=Object, e2=Subject
+    
+    return candidate_pairs
+
+def gemini_api(sent):
+    return 
+
 def main():
     #/home/gkaraman/run <google api key> <google engine id> <precision> <query>
     #key = "AIzaSyC0vz_nYIczwBwNupqMrNhmBm4dQbX5Pbw"
@@ -87,41 +116,43 @@ def main():
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]
 
-                #split the text into sentences and extract named entities -> use spaCy
-                if gem_span == 'spanbert':
-                    #spanbert = SpanBERT("./pretrained_spanbert") 
-                    entities_of_interest_schools = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY","UNIVERSITY","COLLEGE"]
-                    entities_of_interest_employee = ["ORGANIZATION", "PERSON"]
-                    entities_of_interest_residence = ["PERSON", "LOCATION", "CITY","STATE_OR_PROVINCE", "COUNTRY"]
-                    entities_of_interest_top_employee = ["PERSON","PEOPLE","ORGANIZATION"]
-                    if r==1:#schools 
-                        entities_of_interest = entities_of_interest_schools
-                    elif r==2:#works 
-                        entities_of_interest = entities_of_interest_employee
-                    elif r==3:#lives 
-                        entities_of_interest = entities_of_interest_residence
-                    elif r==4:#top employee 
-                        entities_of_interest = entities_of_interest_top_employee
-                    new_tuples = get_all_entities(text,entities_of_interest)
-                    #now with new tuples add them to the dictionary 
-                    for label,confidence in new_tuples: #want it to be in format of tuple -> ((entity1,entity2),confidence)
-                        if confidence > t: #can add 
-                            if label in X_extracted_tuples:
-                                X_extracted_tuples[label] = max(X_extracted_tuples[label],confidence)
-                            else:
-                                X_extracted_tuples[label] = confidence 
-                #now all new tuples added if confidence threshold met -> repeats handles by storing that with the highest confidence 
-                        
+                doc = nlp(text)
+                for sent in doc.sents:
+                    #split the text into sentences and extract named entities -> use spaCy
+                    if gem_span == 'spanbert':
+                        #spanbert = SpanBERT("./pretrained_spanbert") 
+                        entities_of_interest_schools = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY","UNIVERSITY","COLLEGE"]
+                        entities_of_interest_employee = ["ORGANIZATION", "PERSON"]
+                        entities_of_interest_residence = ["PERSON", "LOCATION", "CITY","STATE_OR_PROVINCE", "COUNTRY"]
+                        entities_of_interest_top_employee = ["PERSON","PEOPLE","ORGANIZATION"]
+                        if r==1:#schools 
+                            entities_of_interest = entities_of_interest_schools
+                        elif r==2:#works 
+                            entities_of_interest = entities_of_interest_employee
+                        elif r==3:#lives 
+                            entities_of_interest = entities_of_interest_residence
+                        elif r==4:#top employee 
+                            entities_of_interest = entities_of_interest_top_employee
+                        new_tuples = get_all_entities(text,entities_of_interest)
+                        #now with new tuples add them to the dictionary 
+                        for label,confidence in new_tuples: #want it to be in format of tuple -> ((entity1,entity2),confidence)
+                            if confidence > t: #can add 
+                                if label in X_extracted_tuples:
+                                    X_extracted_tuples[label] = max(X_extracted_tuples[label],confidence)
+                                else:
+                                    X_extracted_tuples[label] = confidence 
+                    #now all new tuples added if confidence threshold met -> repeats handles by storing that with the highest confidence 
+                    #if spanbert bert do: 
 
-                
-                #if spanbert bert do: 
-
-                #if gemini do: 
-                elif gem_span == 'gemini':
-                    print("gemini")
-                    #call gemini function 
-                else:
-                    print("wrong type input")
+                    #if gemini do: 
+                    elif gem_span == 'gemini':
+                        print("gemini")
+                        candidate_pairs = gemini_get_candidate_pairs(sent,entities_of_interest,r) 
+                        if len(candidate_pairs)==0:
+                            continue
+                        target_tuples = gemini_api(sent)
+                    else:
+                        print("wrong type input")
 
 
 

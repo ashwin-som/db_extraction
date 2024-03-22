@@ -131,10 +131,12 @@ def main():
                             entities_of_interest = entities_of_interest_schools
                             subjects.add("PERSON")
                             objects.add("ORGANIZATION")
+                            goal_relation = "per:schools_attended"
                         elif r==2:#works 
                             entities_of_interest = entities_of_interest_employee
                             subjects.add("PERSON")
                             objects.add("ORGANIZATION")
+                            goal_relation = "per:employee_of"
                         elif r==3:#lives 
                             entities_of_interest = entities_of_interest_residence
                             subjects.add("PERSON")
@@ -142,10 +144,12 @@ def main():
                             objects.add("CITY")
                             objects.add("STATE_OR_PROVINCE")
                             objects.add("COUNTRY")
+                            goal_relation = "org:top_members/employees"
                         elif r==4:#top employee 
                             entities_of_interest = entities_of_interest_top_employee
                             subjects.add("ORGANIZATION")
                             objects.add("PERSON")
+                            goal_relation = "per:schools_attended"
                         else:
                             print("invalid input")
 
@@ -158,10 +162,13 @@ def main():
                             #currently, new tuples are some sort of default dictioany 
 
                             #for now may just gonna print new_tuples to see the format 
+                            #format is res[(subj, relation, obj)] = confidence -> dictionary of tuple 
                             print(new_tuples)
-                            for label,confidence in new_tuples: #want it to be in format of tuple -> ((entity1,entity2),confidence)
-                                if confidence > t: #can add 
-                                    reversed_label= (label[1],label[0])
+                            for tag,confidence in new_tuples.itemize(): #want it to be in format of tuple -> ((entity1,entity2),confidence)
+                                subject, relation, obj = tag[0],tag[1],tag[2]
+                                if relation == goal_relation and confidence > t: #can add 
+                                    label = (subject,obj)
+                                    reversed_label = (obj, subject)
                                     if label in X_extracted_tuples: #if label in 
                                         X_extracted_tuples[label] = max(X_extracted_tuples[label],confidence)
                                     elif reversed_label in X_extracted_tuples:#if reverse label in 

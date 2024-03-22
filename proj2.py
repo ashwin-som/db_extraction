@@ -155,7 +155,10 @@ def main():
                         for sentence in doc.sents:
                             new_tuples = extract_relations(sentence,spanbert,entities_of_interest,subjects, objects, t)
                             #now with new tuples add them to the dictionary
-                            #currently, new tuples are some sort of default dictioanyr 
+                            #currently, new tuples are some sort of default dictioany 
+
+                            #for now may just gonna print new_tuples to see the format 
+                            print(new_tuples)
                             for label,confidence in new_tuples: #want it to be in format of tuple -> ((entity1,entity2),confidence)
                                 if confidence > t: #can add 
                                     reversed_label= (label[1],label[0])

@@ -9,11 +9,22 @@ import spacy
 from spanbert import SpanBERT
 from spacy_help_functions import extract_relations,get_entities,create_entity_pairs
 from example_relations import get_all_entities
+import os
+import google.generativeai as genai
 
+# Apply Gemini API Key
+GEMINI_API_KEY = 'AIzaSyCSF9KInhX1u1vaLSrv-MCPHOCI0aCqVzQ'  # Substitute your own key here
+genai.configure(api_key=GEMINI_API_KEY)
 
 nlp = spacy.load("en_core_web_lg")
 entities_of_interest = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]
 
+relations = {
+    1:'Schools_Attended',
+    2:'Work_For',
+    3:'Live_In',
+    4:'Top_Member_Employees',
+}
 '''def extract_tuples(input_text,entities_of_interest,spanbert):
     
     #using spacy -> convert text to possible tuples
@@ -77,8 +88,44 @@ def gemini_get_candidate_pairs(sent,entities_of_interest,r):
     
     return candidate_pairs
 
-def gemini_api(sent):
-    return 
+def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, top_k):
+
+    # Initialize a generative model
+    model = genai.GenerativeModel(model_name)
+
+    # Configure the model with your desired parameters
+    generation_config=genai.types.GenerationConfig(
+        max_output_tokens=max_tokens,
+        temperature=temperature,
+        top_p=top_p,
+        top_k=top_k
+    )
+
+    # Generate a response
+    response = model.generate_content(prompt, generation_config=generation_config)
+
+    return response.text
+def gemini_api(sent,r):
+    prompt_text = """Given a sentence, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output.
+
+Relationship Type: {0}
+
+Output Format:
+[(RELATIONSHIP TYPE, SUBJECT, OBJECT),...]
+
+Sentence: {1}""".format(r,sent)
+
+    # Feel free to modify the parameters below.
+    # Documentation: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini
+    model_name = 'gemini-pro'
+    max_tokens = 100
+    temperature = 0.2
+    top_p = 1
+    top_k = 32
+
+    response_text = get_gemini_completion(prompt_text, model_name, max_tokens, temperature, top_p, top_k)
+    print(response_text)
+
 
 def main():
     #/home/gkaraman/run <google api key> <google engine id> <precision> <query>
@@ -102,8 +149,9 @@ def main():
     explored_urls = set()
     #tuples to be generated starts empty -> use a dictionary to hold onto highest value 
     X_extracted_tuples = {}
-
+    count = 0
     while True:
+        count+=1
         links = scrape_web(q,google_api, google_engine)
         #just get links that we have not looked at yet
         #desired_links = []
@@ -180,11 +228,13 @@ def main():
 
                     #if gemini do: 
                     elif gem_span == 'gemini':
+                        count+=1
                         print("gemini")
                         candidate_pairs = gemini_get_candidate_pairs(sent,entities_of_interest,r) 
                         if len(candidate_pairs)==0:
                             continue
-                        target_tuples = gemini_api(sent)
+                        target_tuples = gemini_api(sent,relations[r])
+                        print(target_tuples)
                     else:
                         print("wrong type input")
 

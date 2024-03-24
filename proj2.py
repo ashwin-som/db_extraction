@@ -11,6 +11,7 @@ from spacy_help_functions import extract_relations,get_entities,create_entity_pa
 from example_relations import get_all_entities
 import os
 import google.generativeai as genai
+import ast
 
 # Apply Gemini API Key
 GEMINI_API_KEY = 'AIzaSyCSF9KInhX1u1vaLSrv-MCPHOCI0aCqVzQ'  # Substitute your own key here
@@ -61,7 +62,7 @@ def scrape_web(query, key, id):
     
     links = []
     for result in res['items']:
-        links.append(result)
+        links.append(result.get('link'))
     return links
 
 
@@ -126,6 +127,10 @@ Sentence: {1}""".format(r,sent)
     response_text = get_gemini_completion(prompt_text, model_name, max_tokens, temperature, top_p, top_k)
     print(response_text)
 
+def process_tuples(sent):
+    tuples = ast.literal_eval(sent)
+    return tuples
+
 
 def main():
     #/home/gkaraman/run <google api key> <google engine id> <precision> <query>
@@ -150,7 +155,7 @@ def main():
     #tuples to be generated starts empty -> use a dictionary to hold onto highest value 
     X_extracted_tuples = {}
     count = 0
-    while True:
+    while len(X_extracted_tuples)<k and count<k:
         count+=1
         links = scrape_web(q,google_api, google_engine)
         #just get links that we have not looked at yet
@@ -233,12 +238,13 @@ def main():
                         candidate_pairs = gemini_get_candidate_pairs(sent,entities_of_interest,r) 
                         if len(candidate_pairs)==0:
                             continue
-                        target_tuples = gemini_api(sent,relations[r])
-                        print(target_tuples)
+                        target_tuples_sent = gemini_api(sent,relations[r])
+                        result_tuples = process_tuples(target_tuples_sent)
+                        print(result_tuples)
                     else:
                         print("wrong type input")
 
-
+    print(X_extracted_tuples)
 
 
 

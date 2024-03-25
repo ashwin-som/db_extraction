@@ -71,24 +71,25 @@ def gemini_get_candidate_pairs(sent,entities_of_interest,r):
     ents = get_entities(sent, entities_of_interest)
     candidate_pairs = []
     sentence_entity_pairs = create_entity_pairs(sent, entities_of_interest)
-    print('sentence entity pairs:',sentence_entity_pairs)
-    print("sentence entity pairs: ", sentence_entity_pairs)
+    #print('sentence entity pairs:',sentence_entity_pairs)
+    #print("sentence entity pairs: ", sentence_entity_pairs)
     for ep in sentence_entity_pairs:
-        print('ep1, ep2:',ep[1],ep[2])
+        type1 = ep[1][1] #so can be something like person, location ,etc. 
+        type2 = ep[2][1]
         if r==1 or r==2:
-            if ep[1]=='PERSON' and ep[2]=='ORGANIZATION':
+            if type1=='PERSON' and type2=='ORGANIZATION':
                 candidate_pairs.append({"tokens": ep[0], "subj": ep[1], "obj": ep[2]})  # e1=Subject, e2=Object
-            elif ep[2]=='PERSON' and ep[1]=='ORGANIZATION':
+            elif type2=='PERSON' and type1=='ORGANIZATION':
                 candidate_pairs.append({"tokens": ep[0], "subj": ep[2], "obj": ep[1]})  # e1=Object, e2=Subject
         elif r==3:
-            if ep[1]=='PERSON' and ep[2] in set(['LOCATION', 'CITY', 'STATE_OR_PROVINCE','COUNTRY']):
+            if type1=='PERSON' and type2 in set(['LOCATION', 'CITY', 'STATE_OR_PROVINCE','COUNTRY']):
                 candidate_pairs.append({"tokens": ep[0], "subj": ep[1], "obj": ep[2]})
-            elif ep[2]=='PERSON' and ep[1] in set(['LOCATION', 'CITY', 'STATE_OR_PROVINCE','COUNTRY']):
+            elif type2=='PERSON' and type1 in set(['LOCATION', 'CITY', 'STATE_OR_PROVINCE','COUNTRY']):
                 candidate_pairs.append({"tokens": ep[0], "subj": ep[2], "obj": ep[1]})
         elif r==4:
-            if ep[2]=='PERSON' and ep[1]=='ORGANIZATION':
+            if type2=='PERSON' and type1=='ORGANIZATION':
                 candidate_pairs.append({"tokens": ep[0], "subj": ep[1], "obj": ep[2]})  # e1=Subject, e2=Object
-            elif ep[1]=='PERSON' and ep[2]=='ORGANIZATION':
+            elif type1=='PERSON' and type2=='ORGANIZATION':
                 candidate_pairs.append({"tokens": ep[0], "subj": ep[2], "obj": ep[1]})  # e1=Object, e2=Subject
     
     return candidate_pairs

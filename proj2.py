@@ -156,7 +156,7 @@ def main():
     #tuples to be generated starts empty -> use a dictionary to hold onto highest value 
     X_extracted_tuples = {}
     count = 0
-
+    entities_of_interest = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]
     nlp = spacy.load("en_core_web_lg")
     spanbert = SpanBERT("./pretrained_spanbert") 
     print("gemini or spam is", gem_span)

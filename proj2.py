@@ -71,6 +71,7 @@ def gemini_get_candidate_pairs(sent,entities_of_interest,r):
     ents = get_entities(sent, entities_of_interest)
     candidate_pairs = []
     sentence_entity_pairs = create_entity_pairs(sent, entities_of_interest)
+    print("sentence entity pairs: ", sentence_entity_pairs)
     for ep in sentence_entity_pairs:
         if r==1 or r==2:
             if ep[1]=='PERSON' and ep[2]=='ORGANIZATION':

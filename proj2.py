@@ -14,6 +14,7 @@ import os
 import google.generativeai as genai
 import ast
 import requests
+from collections import defaultdict
 # Apply Gemini API Key
 GEMINI_API_KEY = 'AIzaSyCSF9KInhX1u1vaLSrv-MCPHOCI0aCqVzQ'  # Substitute your own key here
 genai.configure(api_key=GEMINI_API_KEY)
@@ -165,7 +166,11 @@ def main():
     #keeps track of urls already looked at 
     explored_urls = set()
     #tuples to be generated starts empty -> use a dictionary to hold onto highest value 
-    X_extracted_tuples = {}
+    #X_extracted_tuples = {}
+    X_extracted_tuples = defaultdict()
+    #stores the used qs for web api call
+    used_qs = set()
+    used_qs.add(q)
     count = 0
     entities_of_interest = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]
     nlp = spacy.load("en_core_web_lg")
@@ -277,6 +282,22 @@ def main():
                         #print(target_tuples_sent)
                     else:
                         print("wrong type input")
+        #this should be end of links 
+        if gem_span == '-spanbert':
+            #sort all the element in dictionary 
+            X_extracted_tuples = dict(sorted(X_extracted_tuples.items(), key=lambda item: item[1],reverse=True))
+            #get the next q 
+            found = False
+            for tag,confidence in X_extracted_tuples.items():
+                if tag not in used_qs:
+                    q = tag[1]+' '+tag[2]
+                    found = True
+                    used_qs.add(tag)
+                    break
+            if not found: #exit because no more tuples to be found 
+                print("there are no more seed tuples to be generated. Exiting program...")
+                break
+                        
 
     #print(X_extracted_tuples)
     #for ex, pred in list(zip(candidate_pairs, relation_preds)):

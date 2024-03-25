@@ -255,15 +255,15 @@ def main():
                     #if gemini do: 
                     elif gem_span == '-gemini':
                         count+=1
-                        print("gemini")
+                        #print("gemini")
                         candidate_pairs = gemini_get_candidate_pairs(sent,entities_of_interest,r) 
-                        print("cnadidate pairs: ",candidate_pairs)
+                        #print("cnadidate pairs: ",candidate_pairs)
                         if len(candidate_pairs)==0:
                             #print()
                             continue
                         target_tuples_sent = gemini_api(sent,relations[r])
-                        result_tuples = process_tuples(target_tuples_sent)
-                        print(result_tuples)
+                        #result_tuples = process_tuples(target_tuples_sent)
+                        print(target_tuples_sent)
                     else:
                         print("wrong type input")
 

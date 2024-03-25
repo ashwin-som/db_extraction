@@ -139,6 +139,7 @@ def process_tuples(sent):
 
 
 def main():
+    print("hello world")
     #hello this is a commentgoo
     #/home/gkaraman/run <google api key> <google engine id> <precision> <query>
     #key = "AIzaSyC0vz_nYIczwBwNupqMrNhmBm4dQbX5Pbw"

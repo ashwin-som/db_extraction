@@ -156,6 +156,9 @@ def main():
     #tuples to be generated starts empty -> use a dictionary to hold onto highest value 
     X_extracted_tuples = {}
     count = 0
+
+    nlp = spacy.load("en_core_web_lg")
+    
     while len(X_extracted_tuples)<k and count<k:
         count+=1
         links = scrape_web(q,google_api, google_engine)
@@ -173,8 +176,8 @@ def main():
                 soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]
-
-                doc = nlp(text)
+                #nlp = spacy.load("en_core_web_lg")
+                #doc = nlp(text)
                 for sent in doc.sents:
                     #split the text into sentences and extract named entities -> use spaCy
                     if gem_span == 'spanbert':
@@ -211,7 +214,7 @@ def main():
                         else:
                             print("invalid input")
 
-                        nlp = spacy.load("en_core_web_lg")  
+                        #nlp = spacy.load("en_core_web_lg")  
                         doc = nlp(text)  
                         spanbert = SpanBERT("./pretrained_spanbert")  
                         for sentence in doc.sents:

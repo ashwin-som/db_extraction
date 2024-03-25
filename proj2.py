@@ -158,7 +158,7 @@ def main():
     count = 0
 
     nlp = spacy.load("en_core_web_lg")
-    
+    spanbert = SpanBERT("./pretrained_spanbert") 
     while len(X_extracted_tuples)<k and count<k:
         count+=1
         links = scrape_web(q,google_api, google_engine)
@@ -177,7 +177,7 @@ def main():
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]
                 #nlp = spacy.load("en_core_web_lg")
-                #doc = nlp(text)
+                doc = nlp(text)
                 for sent in doc.sents:
                     #split the text into sentences and extract named entities -> use spaCy
                     if gem_span == 'spanbert':
@@ -215,27 +215,27 @@ def main():
                             print("invalid input")
 
                         #nlp = spacy.load("en_core_web_lg")  
-                        doc = nlp(text)  
-                        spanbert = SpanBERT("./pretrained_spanbert")  
-                        for sentence in doc.sents:
-                            new_tuples = extract_relations(sentence,spanbert,entities_of_interest,subjects, objects, t)
-                            #now with new tuples add them to the dictionary
-                            #currently, new tuples are some sort of default dictioany 
+                        #doc = nlp(text)  
+                         
+                        sentence = sent
+                        new_tuples = extract_relations(sentence,spanbert,entities_of_interest,subjects, objects, t)
+                        #now with new tuples add them to the dictionary
+                        #currently, new tuples are some sort of default dictioany 
 
-                            #for now may just gonna print new_tuples to see the format 
-                            #format is res[(subj, relation, obj)] = confidence -> dictionary of tuple 
-                            print(new_tuples)
-                            for tag,confidence in new_tuples.itemize(): #want it to be in format of tuple -> ((entity1,entity2),confidence)
-                                subject, relation, obj = tag[0],tag[1],tag[2]
-                                if relation == goal_relation and confidence > t: #can add 
-                                    label = (subject,obj)
-                                    reversed_label = (obj, subject)
-                                    if label in X_extracted_tuples: #if label in 
-                                        X_extracted_tuples[label] = max(X_extracted_tuples[label],confidence)
-                                    elif reversed_label in X_extracted_tuples:#if reverse label in 
-                                        X_extracted_tuples[reversed_label] = max(X_extracted_tuples[reversed_label],confidence) 
-                                    else:#add in 
-                                        X_extracted_tuples[label] = confidence 
+                        #for now may just gonna print new_tuples to see the format 
+                        #format is res[(subj, relation, obj)] = confidence -> dictionary of tuple 
+                        print(new_tuples)
+                        for tag,confidence in new_tuples.itemize(): #want it to be in format of tuple -> ((entity1,entity2),confidence)
+                            subject, relation, obj = tag[0],tag[1],tag[2]
+                            if relation == goal_relation and confidence > t: #can add 
+                                label = (subject,obj)
+                                reversed_label = (obj, subject)
+                                if label in X_extracted_tuples: #if label in 
+                                    X_extracted_tuples[label] = max(X_extracted_tuples[label],confidence)
+                                elif reversed_label in X_extracted_tuples:#if reverse label in 
+                                    X_extracted_tuples[reversed_label] = max(X_extracted_tuples[reversed_label],confidence) 
+                                else:#add in 
+                                    X_extracted_tuples[label] = confidence 
                     #now all new tuples added if confidence threshold met -> repeats handles by storing that with the highest confidence 
                     #if spanbert bert do: 
 

@@ -41,30 +41,32 @@ def extract_relations(doc, spanbert, entities_of_interest, sub_set, object_set, 
             if type2 in sub_set and type1 in object_set:
                 examples.append({"tokens": ep[0], "subj": ep[2], "obj": ep[1]})
             #this is my added code to see if worthwhile 
-
-        preds = spanbert.predict(examples)
-        for ex, pred in list(zip(examples, preds)):
-            try:
-                relation = pred[0]
-            except:
-                print("sentence did not predict anything")
-            if relation == 'no_relation':
-                continue
-            print("\n\t\t=== Extracted Relation ===")
-            print("\t\tTokens: {}".format(ex['tokens']))
-            subj = ex["subj"][0]
-            obj = ex["obj"][0]
-            confidence = pred[1]
-            print("\t\tRelation: {} (Confidence: {:.3f})\nSubject: {}\tObject: {}".format(relation, confidence, subj, obj))
-            if confidence > conf:
-                if res[(subj, relation, obj)] < confidence:
-                    res[(subj, relation, obj)] = confidence
-                    print("\t\tAdding to set of extracted relations")
+        try:
+            preds = spanbert.predict(examples)
+            for ex, pred in list(zip(examples, preds)):
+                try:
+                    relation = pred[0]
+                except:
+                    print("sentence did not predict anything")
+                if relation == 'no_relation':
+                    continue
+                print("\n\t\t=== Extracted Relation ===")
+                print("\t\tTokens: {}".format(ex['tokens']))
+                subj = ex["subj"][0]
+                obj = ex["obj"][0]
+                confidence = pred[1]
+                print("\t\tRelation: {} (Confidence: {:.3f})\nSubject: {}\tObject: {}".format(relation, confidence, subj, obj))
+                if confidence > conf:
+                    if res[(subj, relation, obj)] < confidence:
+                        res[(subj, relation, obj)] = confidence
+                        print("\t\tAdding to set of extracted relations")
+                    else:
+                        print("\t\tDuplicate with lower confidence than existing record. Ignoring this.")
                 else:
-                    print("\t\tDuplicate with lower confidence than existing record. Ignoring this.")
-            else:
-                print("\t\tConfidence is lower than threshold confidence. Ignoring this.")
-            print("\t\t==========")
+                    print("\t\tConfidence is lower than threshold confidence. Ignoring this.")
+                print("\t\t==========")
+        except:
+            print("nothing for pretained")
     return res
 
 

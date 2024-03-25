@@ -117,7 +117,7 @@ def gemini_api(sent,r):
 Relationship Type: {0}
 
 Output Format:
-[(RELATIONSHIP TYPE, SUBJECT, OBJECT),...]
+[('RELATIONSHIP TYPE', 'SUBJECT', 'OBJECT'),...]
 
 Sentence: {1}""".format(r,sent)
 
@@ -130,7 +130,7 @@ Sentence: {1}""".format(r,sent)
     top_k = 32
 
     response_text = get_gemini_completion(prompt_text, model_name, max_tokens, temperature, top_p, top_k)
-    print(response_text)
+    return response_text
 
 def process_tuples(sent):
     tuples = ast.literal_eval(sent)
@@ -170,9 +170,11 @@ def main():
     entities_of_interest = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]
     nlp = spacy.load("en_core_web_lg")
     spanbert = SpanBERT("./pretrained_spanbert") 
+    output_tuples = set()
     #print("gemini or spam is", gem_span)
-    while len(X_extracted_tuples)<k and count<k:
-        count+=1
+    numIterations = 0
+    while count<k:
+        numIterations+=1
         links = scrape_web(q,google_api, google_engine)
         #just get links that we have not looked at yet
         #desired_links = []
@@ -249,12 +251,12 @@ def main():
                                     X_extracted_tuples[reversed_label] = max(X_extracted_tuples[reversed_label],confidence) 
                                 else:#add in 
                                     X_extracted_tuples[label] = confidence 
+                                count+=1
                     #now all new tuples added if confidence threshold met -> repeats handles by storing that with the highest confidence 
                     #if spanbert bert do: 
 
                     #if gemini do: 
                     elif gem_span == '-gemini':
-                        count+=1
                         #print("gemini")
                         candidate_pairs = gemini_get_candidate_pairs(sent,entities_of_interest,r) 
                         #print("cnadidate pairs: ",candidate_pairs)
@@ -262,7 +264,7 @@ def main():
                             #print()
                             continue
                         target_tuples_sent = gemini_api(sent,relations[r])
-                        #result_tuples = process_tuples(target_tuples_sent)
+                        result_tuples = process_tuples(target_tuples_sent)
                         print(target_tuples_sent)
                     else:
                         print("wrong type input")
@@ -272,7 +274,7 @@ def main():
             #print("\tSubject: {}\tObject: {}\tRelation: {}\tConfidence: {:.2f}".format(ex["subj"][0], ex["obj"][0], pred[0], pred[1]))
     for tag,confidence in X_extracted_tuples.items():
         print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence)
-    print("numcer of iterations is ",count)
+    print("numcer of iterations is ",numIterations)
 
     
 

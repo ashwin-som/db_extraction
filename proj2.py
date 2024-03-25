@@ -260,8 +260,9 @@ def main():
     #print(X_extracted_tuples)
     #for ex, pred in list(zip(candidate_pairs, relation_preds)):
             #print("\tSubject: {}\tObject: {}\tRelation: {}\tConfidence: {:.2f}".format(ex["subj"][0], ex["obj"][0], pred[0], pred[1]))
-    for tag,confidence in X_extracted_tuples:
+    for tag,confidence in X_extracted_tuples.items():
         print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence)
+    print("numcer of iterations is ",count)
 
     
 

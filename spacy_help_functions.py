@@ -29,7 +29,7 @@ def extract_relations(doc, spanbert, entities_of_interest, sub_set, object_set, 
     print("Total # sentences = {}".format(num_sentences))
     res = defaultdict(int)
     for sentence in doc.sents:
-        print("\tprocessing sentence: {}".format(sentence))
+        #print("\tprocessing sentence: {}".format(sentence))
         entity_pairs = create_entity_pairs(sentence, entities_of_interest)
         examples = []
         for ep in entity_pairs:
@@ -50,12 +50,12 @@ def extract_relations(doc, spanbert, entities_of_interest, sub_set, object_set, 
                     print("sentence did not predict anything")
                 if relation == 'no_relation':
                     continue
-                print("\n\t\t=== Extracted Relation ===")
-                print("\t\tTokens: {}".format(ex['tokens']))
+                #print("\n\t\t=== Extracted Relation ===")
+                #print("\t\tTokens: {}".format(ex['tokens']))
                 subj = ex["subj"][0]
                 obj = ex["obj"][0]
                 confidence = pred[1]
-                print("\t\tRelation: {} (Confidence: {:.3f})\nSubject: {}\tObject: {}".format(relation, confidence, subj, obj))
+                #print("\t\tRelation: {} (Confidence: {:.3f})\nSubject: {}\tObject: {}".format(relation, confidence, subj, obj))
                 if confidence > conf:
                     if res[(subj, relation, obj)] < confidence:
                         res[(subj, relation, obj)] = confidence

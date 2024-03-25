@@ -290,7 +290,8 @@ def main():
             found = False
             for tag,confidence in X_extracted_tuples.items():
                 if tag not in used_qs:
-                    q = tag[1]+' '+tag[2]
+                    q = tag[0]+' '+tag[1]
+                    print("printing q, ", q)
                     found = True
                     used_qs.add(tag)
                     break

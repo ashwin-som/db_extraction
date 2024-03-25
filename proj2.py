@@ -185,7 +185,8 @@ def main():
                 #with open(link) as fp:
                 content = requests.get(link)
                 if content.status_code != 200: #check to make sure html 
-                    print("not status 200")
+                    #print("not status 200")
+                    continue
                     #break
                 html_stuff = content.text
                 soup = BeautifulSoup(html_stuff, 'html.parser')
@@ -265,15 +266,26 @@ def main():
                             continue
                         target_tuples_sent = gemini_api(sent,relations[r])
                         result_tuples = process_tuples(target_tuples_sent)
-                        print(target_tuples_sent)
+                        for tup in result_tuples:
+                            if tup not in output_tuples and tup[0]==relations[r]:
+                                output_tuples.add(tup)
+                                count+=1
+                                print(count)
+                        #print(target_tuples_sent)
                     else:
                         print("wrong type input")
 
     #print(X_extracted_tuples)
     #for ex, pred in list(zip(candidate_pairs, relation_preds)):
             #print("\tSubject: {}\tObject: {}\tRelation: {}\tConfidence: {:.2f}".format(ex["subj"][0], ex["obj"][0], pred[0], pred[1]))
-    for tag,confidence in X_extracted_tuples.items():
-        print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence)
+    if gem_span=='-gemini':
+        print('All relations for: ',relations[r])
+        for tup in output_tuples:
+            print('Subject: {0} 		| Object: {1}').format(tup[1],tup[2])
+    else:
+        for tag,confidence in X_extracted_tuples.items():
+            print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence)
+    
     print("numcer of iterations is ",numIterations)
 
     

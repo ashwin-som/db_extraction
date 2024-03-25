@@ -173,6 +173,7 @@ def main():
                 content = requests.get(link)
                 if content.status_code != 200: #check to make sure html 
                     print("not status 200")
+                    #break
                 html_stuff = content.text
                 soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)
@@ -245,7 +246,9 @@ def main():
                         count+=1
                         print("gemini")
                         candidate_pairs = gemini_get_candidate_pairs(sent,entities_of_interest,r) 
+                        print("cnadidate pairs: ",candidate_pairs)
                         if len(candidate_pairs)==0:
+                            #print()
                             continue
                         target_tuples_sent = gemini_api(sent,relations[r])
                         result_tuples = process_tuples(target_tuples_sent)

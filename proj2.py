@@ -175,6 +175,7 @@ def main():
     numIterations = 0
     while count<k:
         numIterations+=1
+        print('query:',q)
         links = scrape_web(q,google_api, google_engine)
         #just get links that we have not looked at yet
         #desired_links = []
@@ -264,10 +265,12 @@ def main():
                         if len(candidate_pairs)==0:
                             #print()
                             continue
+                        print('Processing Sentence: ',sent)
                         target_tuples_sent = gemini_api(sent,relations[r])
                         result_tuples = process_tuples(target_tuples_sent)
                         for tup in result_tuples:
                             if tup not in output_tuples and tup[0]==relations[r]:
+                                q = tup[1]+' '+tup[2]
                                 output_tuples.add(tup)
                                 count+=1
                                 print(count)
@@ -281,7 +284,7 @@ def main():
     if gem_span=='-gemini':
         print('All relations for: ',relations[r])
         for tup in output_tuples:
-            print('Subject: {0} 		| Object: {1}').format(tup[1],tup[2])
+            print('Subject: {0} 		| Object: {1}'.format(tup[1],tup[2]))
     else:
         for tag,confidence in X_extracted_tuples.items():
             print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence)

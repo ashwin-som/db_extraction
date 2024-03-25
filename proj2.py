@@ -1,6 +1,7 @@
 import numpy as np 
 from googleapiclient.discovery import build
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
+from beautifulsoup4 import BeautifulSoup
 #from sklearn.feature_extraction.text import TfidfVectorizer 
 #import heapq
 import sys
@@ -12,7 +13,7 @@ from example_relations import get_all_entities
 import os
 import google.generativeai as genai
 import ast
-
+import requests
 # Apply Gemini API Key
 GEMINI_API_KEY = 'AIzaSyCSF9KInhX1u1vaLSrv-MCPHOCI0aCqVzQ'  # Substitute your own key here
 genai.configure(api_key=GEMINI_API_KEY)
@@ -164,8 +165,12 @@ def main():
             if link not in explored_urls:
                 explored_urls.add(link)
                 #now extract webpage, as long as no timeoute 
-                with open(link) as fp:
-                    soup = BeautifulSoup(fp, 'html.parser')
+                #with open(link) as fp:
+                content = requests.get(link)
+                if content.status_code != 200: #check to make sure html 
+                    print("not status 200")
+                html_stuff = content.text
+                soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]
 

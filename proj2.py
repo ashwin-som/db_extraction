@@ -308,8 +308,14 @@ def main():
         for tup in output_tuples:
             print('Subject: {0} 		| Object: {1}'.format(tup[1],tup[2]))
     else:
+        count = 0
         for tag,confidence in X_extracted_tuples.items():
-            print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence)
+            count += 1
+            if count > k: #so that we only print out k tuples
+                break
+            print("\tSubject: {}\tObject: {}\tRelation: {}\tConfidence: {:.2f}".format(tag[0], tag[1], confidence))
+            #print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence) 
+
     
     print("numcer of iterations is ",numIterations)
 

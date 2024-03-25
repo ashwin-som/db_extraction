@@ -71,6 +71,7 @@ def gemini_get_candidate_pairs(sent,entities_of_interest,r):
     ents = get_entities(sent, entities_of_interest)
     candidate_pairs = []
     sentence_entity_pairs = create_entity_pairs(sent, entities_of_interest)
+    print('sentence entity pairs:',sentence_entity_pairs)
     print("sentence entity pairs: ", sentence_entity_pairs)
     for ep in sentence_entity_pairs:
         if r==1 or r==2:
@@ -139,6 +140,12 @@ def main():
     #/home/gkaraman/run <google api key> <google engine id> <precision> <query>
     #key = "AIzaSyC0vz_nYIczwBwNupqMrNhmBm4dQbX5Pbw"
     #id = "7260228cc892a415a"
+    relations = {
+    1:'Schools_Attended',
+    2:'Work_For',
+    3:'Live_In',
+    4:'Top_Member_Employees',
+    }
     i = 1 
     google_api = sys.argv[0+i]
     google_engine = sys.argv[1+i]

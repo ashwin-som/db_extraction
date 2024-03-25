@@ -181,7 +181,7 @@ def main():
                 doc = nlp(text)
                 for sent in doc.sents:
                     #split the text into sentences and extract named entities -> use spaCy
-                    if gem_span == 'spanbert':
+                    if gem_span == '-spanbert':
                         #spanbert = SpanBERT("./pretrained_spanbert") 
                         entities_of_interest_schools = ["ORGANIZATION", "PERSON"]
                         entities_of_interest_employee = ["ORGANIZATION", "PERSON"]
@@ -241,7 +241,7 @@ def main():
                     #if spanbert bert do: 
 
                     #if gemini do: 
-                    elif gem_span == 'gemini':
+                    elif gem_span == '-gemini':
                         count+=1
                         print("gemini")
                         candidate_pairs = gemini_get_candidate_pairs(sent,entities_of_interest,r) 

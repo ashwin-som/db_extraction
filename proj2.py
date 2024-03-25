@@ -286,6 +286,7 @@ def main():
         if gem_span == '-spanbert':
             #sort all the element in dictionary 
             X_extracted_tuples = dict(sorted(X_extracted_tuples.items(), key=lambda item: item[1],reverse=True))
+            print("printing extracted tuples",X_extracted_tuples)
             #get the next q 
             found = False
             for tag,confidence in X_extracted_tuples.items():

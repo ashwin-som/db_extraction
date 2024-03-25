@@ -1,7 +1,7 @@
 import numpy as np 
 from googleapiclient.discovery import build
 #from bs4 import BeautifulSoup
-from beautifulsoup4 import BeautifulSoup
+from bs4 import BeautifulSoup
 #from sklearn.feature_extraction.text import TfidfVectorizer 
 #import heapq
 import sys

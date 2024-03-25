@@ -159,6 +159,7 @@ def main():
 
     nlp = spacy.load("en_core_web_lg")
     spanbert = SpanBERT("./pretrained_spanbert") 
+    print("gemini or spam is", gem_span)
     while len(X_extracted_tuples)<k and count<k:
         count+=1
         links = scrape_web(q,google_api, google_engine)

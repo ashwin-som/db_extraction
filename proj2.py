@@ -18,15 +18,15 @@ import requests
 GEMINI_API_KEY = 'AIzaSyCSF9KInhX1u1vaLSrv-MCPHOCI0aCqVzQ'  # Substitute your own key here
 genai.configure(api_key=GEMINI_API_KEY)
 
-nlp = spacy.load("en_core_web_lg")
-entities_of_interest = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]
+#nlp = spacy.load("en_core_web_lg")
+#entities_of_interest = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]
 
-relations = {
+'''relations = {
     1:'Schools_Attended',
     2:'Work_For',
     3:'Live_In',
     4:'Top_Member_Employees',
-}
+}'''
 '''def extract_tuples(input_text,entities_of_interest,spanbert):
     
     #using spacy -> convert text to possible tuples

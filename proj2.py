@@ -186,6 +186,7 @@ def main():
         #desired_links = []
         for link in links:
             if link not in explored_urls:
+                print("adding in a new link")
                 explored_urls.add(link)
                 #now extract webpage, as long as no timeoute 
                 #with open(link) as fp:

@@ -184,6 +184,7 @@ def main():
         links = scrape_web(q,google_api, google_engine)
         #just get links that we have not looked at yet
         #desired_links = []
+        print("length of links is: ", len(links))
         for link in links:
             if link not in explored_urls:
                 print("adding in a new link")

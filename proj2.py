@@ -160,7 +160,7 @@ def main():
     entities_of_interest = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]
     nlp = spacy.load("en_core_web_lg")
     spanbert = SpanBERT("./pretrained_spanbert") 
-    print("gemini or spam is", gem_span)
+    #print("gemini or spam is", gem_span)
     while len(X_extracted_tuples)<k and count<k:
         count+=1
         links = scrape_web(q,google_api, google_engine)
@@ -227,7 +227,7 @@ def main():
 
                         #for now may just gonna print new_tuples to see the format 
                         #format is res[(subj, relation, obj)] = confidence -> dictionary of tuple 
-                        print(new_tuples)
+                        #print(new_tuples)
                         for tag,confidence in new_tuples.items(): #want it to be in format of tuple -> ((entity1,entity2),confidence)
                             subject, relation, obj = tag[0],tag[1],tag[2]
                             if relation == goal_relation and confidence > t: #can add 
@@ -257,7 +257,13 @@ def main():
                     else:
                         print("wrong type input")
 
-    print(X_extracted_tuples)
+    #print(X_extracted_tuples)
+    #for ex, pred in list(zip(candidate_pairs, relation_preds)):
+            #print("\tSubject: {}\tObject: {}\tRelation: {}\tConfidence: {:.2f}".format(ex["subj"][0], ex["obj"][0], pred[0], pred[1]))
+    for tag,confidence in X_extracted_tuples:
+        print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence)
+
+    
 
 
 

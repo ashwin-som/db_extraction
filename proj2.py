@@ -183,15 +183,17 @@ def main():
         numIterations+=1
         print('query:',q)
         links = scrape_web(q,google_api, google_engine)
-        #just get links that we have not looked at yet
-        #desired_links = []
-        #print("length of links is: ", len(links))
+        link_count = 0 
+        link_total = len(links)
         for link in links:
+            link_count += 1 
+            print("URL (",link_count,"/",link_total,"): ", link_total)
             if link not in explored_urls:
                 #print("adding in a new link")
                 explored_urls.add(link)
                 #now extract webpage, as long as no timeoute 
                 #with open(link) as fp:
+                print("link has not been looked at yet, fetching text from url...")
                 content = requests.get(link)
                 if content.status_code != 200: #make sure not nothing 
                     continue
@@ -203,9 +205,16 @@ def main():
                 #print("printing text")
                 #print(text)
                 #nlp = spacy.load("en_core_web_lg")
+                print("Annotating the webpage using spacy...")
                 doc = nlp(text)
+                sent_count = 0
+                sent_total = len(doc.sents)
+                print(sent_total, " sentences for this document")
                 for sent in doc.sents:
                     #split the text into sentences and extract named entities -> use spaCy
+                    sent_count += 1 
+                    if sent_count%5 ==0:
+                        print("Processing sentence ",sent_count," of ", sent_total, " total number of sentences")
                     if gem_span == '-spanbert':
                         #spanbert = SpanBERT("./pretrained_spanbert") 
                         entities_of_interest_schools = ["ORGANIZATION", "PERSON"]

@@ -26,7 +26,7 @@ def get_entities(sentence, entities_of_interest):
 
 def extract_relations(doc, spanbert, entities_of_interest, sub_set, object_set, conf=0.7):
     num_sentences = len([s for s in doc.sents])
-    print("Total # sentences = {}".format(num_sentences))
+    #print("Total # sentences = {}".format(num_sentences))
     res = defaultdict(int)
     for sentence in doc.sents:
         #print("\tprocessing sentence: {}".format(sentence))

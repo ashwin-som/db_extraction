@@ -139,7 +139,7 @@ def process_tuples(sent):
 
 
 def main():
-    print("hello world")
+    #print("hello world")
     #hello this is a commentgoo
     #/home/gkaraman/run <google api key> <google engine id> <precision> <query>
     #key = "AIzaSyC0vz_nYIczwBwNupqMrNhmBm4dQbX5Pbw"
@@ -185,10 +185,10 @@ def main():
         links = scrape_web(q,google_api, google_engine)
         #just get links that we have not looked at yet
         #desired_links = []
-        print("length of links is: ", len(links))
+        #print("length of links is: ", len(links))
         for link in links:
             if link not in explored_urls:
-                print("adding in a new link")
+                #print("adding in a new link")
                 explored_urls.add(link)
                 #now extract webpage, as long as no timeoute 
                 #with open(link) as fp:
@@ -292,7 +292,7 @@ def main():
         if gem_span == '-spanbert':
             #sort all the element in dictionary 
             X_extracted_tuples = dict(sorted(X_extracted_tuples.items(), key=lambda item: item[1],reverse=True))
-            print("printing extracted tuples",X_extracted_tuples)
+            #print("printing extracted tuples",X_extracted_tuples)
             #get the next q 
             found = False
             for tag,confidence in X_extracted_tuples.items():

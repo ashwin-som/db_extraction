@@ -190,7 +190,9 @@ def main():
         for link in links:
             link_count += 1 
             print("URL (",link_count,"/",link_total,"): ", link)
-            if link not in explored_urls:
+            if link in explored_urls:
+                print("\t\tlink has not been used already!")
+            else:
                 #print("adding in a new link")
                 explored_urls.add(link)
                 #now extract webpage, as long as no timeoute 

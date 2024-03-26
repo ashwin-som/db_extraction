@@ -199,6 +199,8 @@ def main():
                 soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]
+                print("printing text")
+                print(text)
                 #nlp = spacy.load("en_core_web_lg")
                 doc = nlp(text)
                 for sent in doc.sents:

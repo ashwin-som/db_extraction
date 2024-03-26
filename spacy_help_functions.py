@@ -66,7 +66,8 @@ def extract_relations(doc, spanbert, entities_of_interest, sub_set, object_set, 
                     print("\t\tConfidence is lower than threshold confidence. Ignoring this.")
                 print("\t\t==========")
         except:
-            print("nothing for pretained")
+            #print("nothing for pretained")
+            continue
     return res
 
 

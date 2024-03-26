@@ -187,7 +187,7 @@ def main():
         link_total = len(links)
         for link in links:
             link_count += 1 
-            print("URL (",link_count,"/",link_total,"): ", link_total)
+            print("URL (",link_count,"/",link_total,"): ", link)
             if link not in explored_urls:
                 #print("adding in a new link")
                 explored_urls.add(link)
@@ -266,6 +266,12 @@ def main():
                         for tag,confidence in new_tuples.items(): #want it to be in format of tuple -> ((entity1,entity2),confidence)
                             subject, relation, obj = tag[0],tag[1],tag[2]
                             if relation == goal_relation and confidence > t: #can add 
+                                #"\tConfidence: {0}      \t | Subject: {1}      \t | Object: {2}".format(confidence,tag[0], tag[1])
+                                print("=== Extracted Relation ===")
+                                #Input tokens: ['Google', 'CEO', 'Sundar', 'Pichai', ',']
+                                print("\tOutput Confidence: {} ; \t Subject: {} ; \t Object: {} ;".format(confidence,subject,obj))
+                                print("Adding to set of extracted relations")
+                                print("==========")
                                 label = (subject,obj)
                                 reversed_label = (obj, subject)
                                 if label in X_extracted_tuples: #if label in 

@@ -198,6 +198,7 @@ def main():
                 print("link has not been looked at yet, fetching text from url...")
                 content = requests.get(link)
                 if content.status_code != 200: #make sure not nothing 
+                    print("this webpage is not able to be opened")
                     continue
                 #if content
                 html_stuff = content.text
@@ -339,7 +340,7 @@ def main():
             print('Subject: {0} 		| Object: {1}'.format(tup[1],tup[2]))
     else:
         print("All relations for: ", goal_relation)
-        print(len(X_extracted_tuples), "relations generated. Print top ", k, " relations")
+        print(len(X_extracted_tuples), "relations generated. Printing top ", k, " relations")
         count = 0
         for tag,confidence in X_extracted_tuples.items():
             count += 1

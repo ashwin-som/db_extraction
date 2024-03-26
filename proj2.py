@@ -231,12 +231,12 @@ def main():
                             objects.add("CITY")
                             objects.add("STATE_OR_PROVINCE")
                             objects.add("COUNTRY")
-                            goal_relation = "org:top_members/employees"
+                            goal_relation = "per:cities_of_residence"
                         elif r==4:#top employee 
                             entities_of_interest = entities_of_interest_top_employee
                             subjects.add("ORGANIZATION")
                             objects.add("PERSON")
-                            goal_relation = "per:schools_attended"
+                            goal_relation = "org:top_members/employees"
                         else:
                             print("invalid input")
 

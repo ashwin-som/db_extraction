@@ -193,8 +193,9 @@ def main():
                 #now extract webpage, as long as no timeoute 
                 #with open(link) as fp:
                 content = requests.get(link)
-                if content: #make sure not nothing 
+                if content.status_code != 200:: #make sure not nothing 
                     continue
+                #if content
                 html_stuff = content.text
                 soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)

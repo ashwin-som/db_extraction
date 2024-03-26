@@ -185,6 +185,8 @@ def main():
         links = scrape_web(q,google_api, google_engine)
         link_count = 0 
         link_total = len(links)
+        #extractions per webiste -> get difference 
+        
         for link in links:
             link_count += 1 
             print("URL (",link_count,"/",link_total,"): ", link)
@@ -202,15 +204,13 @@ def main():
                 soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]
-                #print("printing text")
-                #print(text)
-                #nlp = spacy.load("en_core_web_lg")
                 print("Annotating the webpage using spacy...")
                 doc = nlp(text)
                 sent_count = 0
-                #sent_total = len(doc.sents)
                 sent_total = sum(1 for _ in doc.sents)
                 print(sent_total, " sentences for this document")
+                old_val_span = len(X_extracted_tuples)
+                old_val_gem = len(output_tuples)
                 for sent in doc.sents:
                     #split the text into sentences and extract named entities -> use spaCy
                     sent_count += 1 
@@ -269,7 +269,7 @@ def main():
                                 #"\tConfidence: {0}      \t | Subject: {1}      \t | Object: {2}".format(confidence,tag[0], tag[1])
                                 print("=== Extracted Relation ===")
                                 #Input tokens: ['Google', 'CEO', 'Sundar', 'Pichai', ',']
-                                print("\tOutput Confidence: {} ; \t Subject: {} ; \t Object: {} ;".format(confidence,subject,obj))
+                                print("Output Confidence: {} ;  Subject: {} ; Object: {} ;".format(confidence,subject,obj))
                                 print("Adding to set of extracted relations")
                                 print("==========")
                                 label = (subject,obj)
@@ -304,6 +304,12 @@ def main():
                         #print(target_tuples_sent)
                     else:
                         print("wrong type input")
+                #add in tuple increase 
+                if gem_span == '-spanbert':
+                    new_tuples = max(len(X_extracted_tuples) - old_val_span ,0)
+                else: #is gemini
+                    new_tuples = max(len(output_tuples) - old_val_gem,0)
+                print("Relations extracted from this website: ",new_tuples)
         #this should be end of links 
         if gem_span == '-spanbert':
             #sort all the element in dictionary 
@@ -332,6 +338,8 @@ def main():
         for tup in output_tuples:
             print('Subject: {0} 		| Object: {1}'.format(tup[1],tup[2]))
     else:
+        print("All relations for: ", goal_relation)
+        print(len(X_extracted_tuples), "relations generated. Print top ", k, " relations")
         count = 0
         for tag,confidence in X_extracted_tuples.items():
             count += 1

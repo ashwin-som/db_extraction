@@ -252,7 +252,7 @@ def main():
 
                         #for now may just gonna print new_tuples to see the format 
                         #format is res[(subj, relation, obj)] = confidence -> dictionary of tuple 
-                        #print(new_tuples)
+                        print("new tuples ",new_tuples)
                         for tag,confidence in new_tuples.items(): #want it to be in format of tuple -> ((entity1,entity2),confidence)
                             subject, relation, obj = tag[0],tag[1],tag[2]
                             if relation == goal_relation and confidence > t: #can add 

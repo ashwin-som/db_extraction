@@ -179,7 +179,7 @@ def main():
     output_tuples = set()
     #print("gemini or spam is", gem_span)
     numIterations = 0
-    while count<k:
+    while (count<k and gem_span == '-gemini') or  (len(X_extracted_tuples) < k and gem_span == '-spanbert'):
         numIterations+=1
         print('query:',q)
         links = scrape_web(q,google_api, google_engine)
@@ -292,19 +292,20 @@ def main():
         if gem_span == '-spanbert':
             #sort all the element in dictionary 
             X_extracted_tuples = dict(sorted(X_extracted_tuples.items(), key=lambda item: item[1],reverse=True))
-            #print("printing extracted tuples",X_extracted_tuples)
+            print("printing extracted tuples",X_extracted_tuples)
             #get the next q 
-            found = False
-            for tag,confidence in X_extracted_tuples.items():
-                if tag not in used_qs:
-                    q = tag[0]+' '+tag[1]
-                    print("printing q, ", q)
-                    found = True
-                    used_qs.add(tag)
+            if len(X_extracted_tuples) < k:
+                found = False
+                for tag,confidence in X_extracted_tuples.items():
+                    if tag not in used_qs:
+                        q = tag[0]+' '+tag[1]
+                        print("printing q, ", q)
+                        found = True
+                        used_qs.add(tag)
+                        break
+                if not found: #exit because no more tuples to be found 
+                    print("there are no more seed tuples to be generated. Exiting program...")
                     break
-            if not found: #exit because no more tuples to be found 
-                print("there are no more seed tuples to be generated. Exiting program...")
-                break
                         
 
     #print(X_extracted_tuples)

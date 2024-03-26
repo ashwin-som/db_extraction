@@ -200,8 +200,8 @@ def main():
                 soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]
-                print("printing text")
-                print(text)
+                #print("printing text")
+                #print(text)
                 #nlp = spacy.load("en_core_web_lg")
                 doc = nlp(text)
                 for sent in doc.sents:
@@ -244,9 +244,9 @@ def main():
                         #doc = nlp(text)  
                          
                         sentence = sent
-                        print("sentence is: ",sentence)
+                        #print("sentence is: ",sentence)
                         new_tuples = extract_relations(sentence,spanbert,entities_of_interest,subjects, objects, t)
-                        print("printing extracted relations", new_tuples)
+                        #print("printing extracted relations", new_tuples)
                         #now with new tuples add them to the dictionary
                         #currently, new tuples are some sort of default dictioany 
 
@@ -325,7 +325,7 @@ def main():
             #print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence) 
 
     
-    print("numcer of iterations is ",numIterations)
+    print("number of iterations is ",numIterations)
 
     
 

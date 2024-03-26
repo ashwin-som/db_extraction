@@ -241,6 +241,7 @@ def main():
                         #doc = nlp(text)  
                          
                         sentence = sent
+                        print("sentence is: ",sentence)
                         new_tuples = extract_relations(sentence,spanbert,entities_of_interest,subjects, objects, t)
                         print("printing extracted relations", new_tuples)
                         #now with new tuples add them to the dictionary

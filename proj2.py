@@ -312,7 +312,7 @@ def main():
                     new_tuples = max(len(X_extracted_tuples) - old_val_span ,0)
                 else: #is gemini
                     new_tuples = max(len(output_tuples) - old_val_gem,0)
-                print("\t\tRelations extracted from this website: ",new_tuples)
+                print("\t\tNew relations extracted from this website: ",new_tuples)
         #this should be end of links 
         if gem_span == '-spanbert':
             #sort all the element in dictionary 

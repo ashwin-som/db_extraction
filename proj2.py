@@ -268,11 +268,11 @@ def main():
                             subject, relation, obj = tag[0],tag[1],tag[2]
                             if relation == goal_relation and confidence > t: #can add 
                                 #"\tConfidence: {0}      \t | Subject: {1}      \t | Object: {2}".format(confidence,tag[0], tag[1])
-                                print("=== Extracted Relation ===")
+                                #print("=== Extracted Relation ===")
                                 #Input tokens: ['Google', 'CEO', 'Sundar', 'Pichai', ',']
-                                print("Output Confidence: {} ;  Subject: {} ; Object: {} ;".format(confidence,subject,obj))
-                                print("Adding to set of extracted relations")
-                                print("==========")
+                                #print("Output Confidence: {} ;  Subject: {} ; Object: {} ;".format(confidence,subject,obj))
+                                #print("Adding to set of extracted relations")
+                                #print("==========")
                                 label = (subject,obj)
                                 reversed_label = (obj, subject)
                                 if label in X_extracted_tuples: #if label in 

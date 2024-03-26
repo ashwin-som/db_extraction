@@ -50,18 +50,18 @@ def extract_relations(doc, spanbert, entities_of_interest, sub_set, object_set, 
                     print("sentence did not predict anything")
                 if relation == 'no_relation':
                     continue
-                #print("\n\t\t=== Extracted Relation ===")
-                #print("\t\tTokens: {}".format(ex['tokens']))
+                print("\n\t\t=== Extracted Relation ===")
+                print("\t\tTokens: {}".format(ex['tokens']))
                 subj = ex["subj"][0]
                 obj = ex["obj"][0]
                 confidence = pred[1]
-                #print("\t\tRelation: {} (Confidence: {:.3f})\nSubject: {}\tObject: {}".format(relation, confidence, subj, obj))
+                print("\t\tRelation: {} (Confidence: {:.3f})\nSubject: {}\tObject: {}".format(relation, confidence, subj, obj))
                 if confidence > conf:
                     if res[(subj, relation, obj)] < confidence:
                         res[(subj, relation, obj)] = confidence
-                        print("\t\tAdding to set of extracted relations")
+                        #print("\t\tAdding to set of extracted relations")
                     else:
-                        print("\t\tDuplicate with lower confidence than existing record. Ignoring this.")
+                        print("Duplicate with lower confidence than existing record. Ignoring this.")
                 else:
                     print("\t\tConfidence is lower than threshold confidence. Ignoring this.")
                 print("\t\t==========")

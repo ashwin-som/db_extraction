@@ -350,7 +350,7 @@ def main():
             #print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence) 
 
     
-    print("number of iterations is ",numIterations)
+    print("number of iterations is: ",numIterations)
 
     
 

@@ -242,6 +242,7 @@ def main():
                          
                         sentence = sent
                         new_tuples = extract_relations(sentence,spanbert,entities_of_interest,subjects, objects, t)
+                        print("printing extracted relations", new_tuples)
                         #now with new tuples add them to the dictionary
                         #currently, new tuples are some sort of default dictioany 
 

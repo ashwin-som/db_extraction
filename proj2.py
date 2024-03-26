@@ -181,7 +181,7 @@ def main():
     numIterations = 0
     while (count<k and gem_span == '-gemini') or  (len(X_extracted_tuples) < k and gem_span == '-spanbert'):
         numIterations+=1
-        print('query:',q)
+        print('\t\tquery:',q)
         links = scrape_web(q,google_api, google_engine)
         link_count = 0 
         link_total = len(links)
@@ -195,28 +195,28 @@ def main():
                 explored_urls.add(link)
                 #now extract webpage, as long as no timeoute 
                 #with open(link) as fp:
-                print("link has not been looked at yet, fetching text from url...")
+                print("\t\tlink has not been looked at yet, fetching text from url...")
                 content = requests.get(link)
                 if content.status_code != 200: #make sure not nothing 
-                    print("this webpage is not able to be opened")
+                    print("\t\tthis webpage is not able to be opened")
                     continue
                 #if content
                 html_stuff = content.text
                 soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]
-                print("Annotating the webpage using spacy...")
+                print("\t\tAnnotating the webpage using spacy...")
                 doc = nlp(text)
                 sent_count = 0
                 sent_total = sum(1 for _ in doc.sents)
-                print(sent_total, " sentences for this document")
+                print('\t\t',sent_total, " sentences for this document")
                 old_val_span = len(X_extracted_tuples)
                 old_val_gem = len(output_tuples)
                 for sent in doc.sents:
                     #split the text into sentences and extract named entities -> use spaCy
                     sent_count += 1 
                     if sent_count%5 ==0:
-                        print("Processing sentence ",sent_count," of ", sent_total, " total number of sentences")
+                        print("\t\tProcessing sentence ",sent_count," of ", sent_total, " total number of sentences")
                     if gem_span == '-spanbert':
                         #spanbert = SpanBERT("./pretrained_spanbert") 
                         entities_of_interest_schools = ["ORGANIZATION", "PERSON"]
@@ -249,7 +249,7 @@ def main():
                             objects.add("PERSON")
                             goal_relation = "org:top_members/employees"
                         else:
-                            print("invalid input")
+                            print("\t\tinvalid input")
 
                         #nlp = spacy.load("en_core_web_lg")  
                         #doc = nlp(text)  
@@ -304,13 +304,13 @@ def main():
                                 print(count)
                         #print(target_tuples_sent)
                     else:
-                        print("wrong type input")
+                        print("\t\twrong type input")
                 #add in tuple increase 
                 if gem_span == '-spanbert':
                     new_tuples = max(len(X_extracted_tuples) - old_val_span ,0)
                 else: #is gemini
                     new_tuples = max(len(output_tuples) - old_val_gem,0)
-                print("Relations extracted from this website: ",new_tuples)
+                print("\t\tRelations extracted from this website: ",new_tuples)
         #this should be end of links 
         if gem_span == '-spanbert':
             #sort all the element in dictionary 
@@ -322,12 +322,12 @@ def main():
                 for tag,confidence in X_extracted_tuples.items():
                     if tag not in used_qs:
                         q = tag[0]+' '+tag[1]
-                        print("printing q, ", q)
+                        #print("printing q, ", q)
                         found = True
                         used_qs.add(tag)
                         break
                 if not found: #exit because no more tuples to be found 
-                    print("there are no more seed tuples to be generated. Exiting program...")
+                    print("\t\t there are no more seed tuples to be generated. Exiting program...")
                     break
                         
 
@@ -335,12 +335,12 @@ def main():
     #for ex, pred in list(zip(candidate_pairs, relation_preds)):
             #print("\tSubject: {}\tObject: {}\tRelation: {}\tConfidence: {:.2f}".format(ex["subj"][0], ex["obj"][0], pred[0], pred[1]))
     if gem_span=='-gemini':
-        print('All relations for: ',relations[r])
+        print('\t\tAll relations for: ',relations[r])
         for tup in output_tuples:
             print('Subject: {0} 		| Object: {1}'.format(tup[1],tup[2]))
     else:
-        print("All relations for: ", goal_relation)
-        print(len(X_extracted_tuples), "relations generated. Printing top ", k, " relations")
+        print("\t\tAll relations for: ", goal_relation)
+        print("\t\t",len(X_extracted_tuples), "relations generated. Printing top ", k, " relations")
         count = 0
         for tag,confidence in X_extracted_tuples.items():
             count += 1

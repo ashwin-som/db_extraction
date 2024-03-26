@@ -208,7 +208,8 @@ def main():
                 print("Annotating the webpage using spacy...")
                 doc = nlp(text)
                 sent_count = 0
-                sent_total = len(doc.sents)
+                #sent_total = len(doc.sents)
+                sent_total = sum(1 for _ in doc.sents)
                 print(sent_total, " sentences for this document")
                 for sent in doc.sents:
                     #split the text into sentences and extract named entities -> use spaCy

@@ -338,7 +338,7 @@ def main():
                         elif r==4:
                             ex_sent = """Jensen Huang is the head of Nvidia"""
                             ex_output = """[('Nvidia','Jensen Huang')]"""
-                            meaning = """Jensen Huang is a top level employee or founder at Nvidia."""
+                            meaning = """The OBJECT, a person, is a top member employee, of the SUBJECT, an organization."""
                         try:
                             target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output,meaning)
                         except:

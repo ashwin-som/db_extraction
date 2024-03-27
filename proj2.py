@@ -118,13 +118,41 @@ def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, to
 
     return ''.join(out)
 def gemini_api(sent,r):
-    prompt_text = """Given a sentence, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
+    prompt_text = """Given the sentence below, extract all instances of the following relationship in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
 
-Relationship Type: {0}
+(
+Examples:
+Example Sentence 1: Bill Gates stepped down as chairman of Microsoft in February 2014 and assumed a new post as technology adviser to support the newly appointed CEO Satya Nadella.
+
+Example Relationship 1: Works_For
+
+Example Output 1: [('Works_For', 'Satya Nadella', 'Microsoft')]
+
+Example Sentence 2: Rachel attended orientation at Yale and Harvard.
+
+Example Relationship 2: Schools_Attended
+
+Example Output 2: [('Schools_Attended', 'Rachel', 'Yale'),('Schools_Attended', 'Rachel', 'Harvard')]
+
+
+Example Sentence 3: Rachel loves her apartment in New York.
+
+Example Relationship 3: Live_In
+
+Example Output 3: [('Live_In', 'Rachel', 'New York')]
+
+
+Example Sentence 4: Sundar Pichai is the CEO of Google
+
+Example Relationship 4: Top_Members_Employees
+
+Example Output 4: [('Top_Members_Employees', 'Sundar Pichai', 'Google')]
+)
+
+Relationship: {0}
 
 Output Format:
-[('RELATIONSHIP TYPE', 'SUBJECT', 'OBJECT'),...]
-If
+[('RELATIONSHIP', 'SUBJECT', 'OBJECT'),...]
 
 Sentence: {1}""".format(r,sent)
 

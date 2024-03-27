@@ -224,7 +224,7 @@ def main():
                 print('\t\t',sent_total, " sentences for this document")
                 old_val_span = len(X_extracted_tuples)
                 old_val_gem = len(output_tuples)
-                new_tup_count = 0
+                #new_tup_count = 0
                 for sent in doc.sents:
                     #split the text into sentences and extract named entities -> use spaCy
                     sent_count += 1 
@@ -308,7 +308,7 @@ def main():
                             continue
                         #print(candidate_pairs)
                         #print('Processing Sentence: ',sent)
-                        #print('calling gemini')
+                        print('calling gemini')
                         target_tuples_sent = gemini_api(sent,relations[r])
                         time.sleep(1)
                         if target_tuples_sent=='NOTHING':
@@ -321,7 +321,6 @@ def main():
                                 q = tup[1]+' '+tup[2]
                                 output_tuples.add(tup)
                                 count+=1
-                                new_tup_count+=1
                                 print(count)
                         #print(target_tuples_sent)
                     else:
@@ -333,10 +332,7 @@ def main():
                     new_tuples = max(len(output_tuples) - old_val_gem,0)
                 print("\t\tNew relations extracted from this website: ",new_tuples)
         #this should be end of links 
-        if gem_span == '-gemini':
-            if new_tup_count==0:
-                print('\t\t there are no more seed tuples to be generated. Exiting program...')
-                break
+        
         if gem_span == '-spanbert':
             #sort all the element in dictionary 
             X_extracted_tuples = dict(sorted(X_extracted_tuples.items(), key=lambda item: item[1],reverse=True))

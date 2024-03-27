@@ -331,7 +331,10 @@ def main():
                         elif r==4:
                             ex_sent = """Jensen Huang is the CEO of Nvidia"""
                             ex_output = """[('Top_Member_Employees'),('Jensen Huang'),('Nvidia')]"""
-                        target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output)
+                        try:
+                            target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output)
+                        except:
+                            continue
                         #time.sleep(1)
                         if target_tuples_sent=='NOTHING':
                             continue

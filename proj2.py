@@ -117,16 +117,18 @@ def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, to
         out = [part.text for part in candidate.content.parts]
 
     return ''.join(out)
-def gemini_api(sent,r):
+def gemini_api(sent,r,ex_sent,ex_output):
     prompt_text = """Given the sentence below, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
 
-    Here are some examples
+Example Sentence: {3}
+Example Output: {4}
+
 Relationship Type: {0}
 
 Output Format:
 [('RELATIONSHIP TYPE', 'SUBJECT', 'OBJECT'),...]
 
-Sentence: {1}""".format(r,sent)
+Sentence: {1}""".format(r,sent,ex_sent,ex_output)
 
     # Feel free to modify the parameters below.
     # Documentation: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini
@@ -189,9 +191,14 @@ def main():
     output_tuples = set()
     #print("gemini or spam is", gem_span)
     numIterations = 0
+    prevQuery = ''
     while (count<k and gem_span == '-gemini') or  (len(X_extracted_tuples) < k and gem_span == '-spanbert'):
         numIterations+=1
         print('\t\tquery:',q)
+        if prevQuery==q:
+            break
+        else:
+            prevQuery=q
         links = scrape_web(q,google_api, google_engine)
         link_count = 0 
         link_total = len(links)
@@ -309,7 +316,20 @@ def main():
                         #print(candidate_pairs)
                         #print('Processing Sentence: ',sent)
                         print('calling gemini')
-                        target_tuples_sent = gemini_api(sent,relations[r])
+                        ex_sent,ex_output = '',''
+                        if r==1:
+                            ex_sent = """Jeff Bezos attended Princeton University"""
+                            ex_output = """[('Schools_Attended'),('Jeff Bezos'),('Princeton University')]"""
+                        elif r==2:
+                            ex_sent = """Alec Radford works for OpenAI"""
+                            ex_output = """[('Works_For'),('Alec Radford'),('OpenAI')]"""
+                        elif r==3:
+                            ex_sent = """Mariah Carey lives in New York City"""
+                            ex_output = """[('Lives_In'),('Mariah Carey'),('New York City')]"""
+                        elif r==4:
+                            ex_sent = """Jensen Huang is the CEO of Nvidia"""
+                            ex_output = """[('Top_Member_Employees'),('Jensen Huang'),('Nvidia')]"""
+                        target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output)
                         #time.sleep(1)
                         if target_tuples_sent=='NOTHING':
                             continue

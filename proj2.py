@@ -143,6 +143,7 @@ TARGET Sentence: {1}""".format(r,sent,ex_sent,ex_output,meaning)
     top_k = 32
 
     response_text = get_gemini_completion(prompt_text, model_name, max_tokens, temperature, top_p, top_k)
+    print('THE GEMINI MODEL HAS RETURNED: ',response_text)
     return response_text
 
 def process_tuples(sent):

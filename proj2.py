@@ -227,6 +227,7 @@ def main():
                 #if content
                 html_stuff = content.text
                 html_stuff = re.sub(r'\s+', ' ',html_stuff)
+                html_stuff = re.sub(r'[^\x00-\x7F]+', '',html_stuff)
                 soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]

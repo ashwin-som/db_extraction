@@ -298,7 +298,7 @@ def main():
                         if len(candidate_pairs)==0:
                             #print()
                             continue
-                        print(candidate_pairs)
+                        #print(candidate_pairs)
                         #print('\t\tProcessing Sentence: ',sent)
                         target_tuples_sent = gemini_api(sent,relations[r])
                         time.sleep(3)

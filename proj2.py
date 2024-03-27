@@ -14,6 +14,7 @@ import os
 import google.generativeai as genai
 import time
 import ast
+import re
 import requests
 from collections import defaultdict
 # Apply Gemini API Key
@@ -224,6 +225,7 @@ def main():
                     continue
                 #if content
                 html_stuff = content.text
+                html_stuff = re.sub(r'\s+', ' ',html_stuff)
                 soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]
@@ -335,7 +337,7 @@ def main():
                         elif r==4:
                             ex_sent = """Jensen Huang is the CEO of Nvidia"""
                             ex_output = """[('Nvidia','Jensen Huang')]"""
-                            meaning = """The SUBJECT is an ORGANIZATION. OBJECT is a PERSON"""
+                            meaning = """The SUBJECT is an ORGANIZATION. OBJECT is a PERSON. The OBJECT is affiliated with the ORGANIZATION at a high level."""
                         try:
                             target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output,meaning)
                         except:

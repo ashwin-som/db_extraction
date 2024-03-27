@@ -400,8 +400,8 @@ def main():
         count = 0
         for tag,confidence in X_extracted_tuples.items():
             count += 1
-            if count > k: #so that we only print out k tuples
-                break
+            #if count > k: #so that we only print out k tuples
+                #break
             #print("\tSubject: {}\tObject: {}\tRelation: {}\tConfidence: {:.2f}".format(tag[0], tag[1], confidence))
             print("\tConfidence: {0}      \t | Subject: {1}      \t | Object: {2}".format(confidence,tag[0], tag[1]))
             #print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence) 

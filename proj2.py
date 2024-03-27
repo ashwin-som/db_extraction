@@ -320,7 +320,7 @@ def main():
                             #print()
                             continue
                         #print(candidate_pairs)
-                        print('Processing Sentence: ',sent)
+                        #print('Processing Sentence: ',sent)
                         print('calling gemini')
                         ex_sent,ex_output,meaning = '','',''
                         if r==1:

@@ -118,10 +118,10 @@ def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, to
 
     return ''.join(out)
 def gemini_api(sent,r):
-    prompt_text = """Given the sentence below, extract all instances of the following relationship in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
+    prompt_text = """Given the sentence below, extract all instances of the following relationship in the sentence. Please learn from the examples. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
 
 (
-Examples:
+Training Examples:
 Example Sentence 1: Bill Gates stepped down as chairman of Microsoft in February 2014 and assumed a new post as technology adviser to support the newly appointed CEO Satya Nadella.
 
 Example Relationship 1: Works_For
@@ -334,8 +334,8 @@ def main():
                             #print()
                             continue
                         #print(candidate_pairs)
-                        #print('\t\tProcessing Sentence: ',sent)
-                        print('calling gemini')
+                        print('Processing Sentence: ',sent)
+                        #print('calling gemini')
                         target_tuples_sent = gemini_api(sent,relations[r])
                         time.sleep(1)
                         if target_tuples_sent=='NOTHING':

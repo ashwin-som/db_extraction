@@ -141,8 +141,11 @@ Sentence: {1}""".format(r,sent)
 
 def process_tuples(sent):
     print('TRYING TO PROCESS THIS: ',sent)
-    tuples = ast.literal_eval(sent)
-    return tuples
+    try:
+        tuples = ast.literal_eval(sent)
+        return tuples
+    except:
+        return 'NOTHING'
 
 
 def main():
@@ -310,6 +313,8 @@ def main():
                         if target_tuples_sent=='NOTHING':
                             continue
                         result_tuples = process_tuples(target_tuples_sent)
+                        if result_tuples=='NOTHING':
+                            continue
                         for tup in result_tuples:
                             if tup not in output_tuples and tup[0]==relations[r]:
                                 q = tup[1]+' '+tup[2]

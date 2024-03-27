@@ -136,6 +136,7 @@ Sentence: {1}""".format(r,sent)
     return response_text
 
 def process_tuples(sent):
+    print('TRYING TO PROCESS THIS: ',sent)
     tuples = ast.literal_eval(sent)
     return tuples
 

@@ -118,9 +118,11 @@ def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, to
 
     return ''.join(out)
 def gemini_api(sent,r,ex_sent,ex_output):
-    prompt_text = """Given the sentence below, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
+    prompt_text = """Given the TARGET sentence below, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
 
+One-Shot Learning
 Example Sentence: {2}
+Example Relationship: {0}
 Example Output: {3}
 
 Relationship Type: {0}
@@ -128,7 +130,7 @@ Relationship Type: {0}
 Output Format:
 [('RELATIONSHIP TYPE', 'SUBJECT', 'OBJECT'),...]
 
-Sentence: {1}""".format(r,sent,ex_sent,ex_output)
+TARGET Sentence: {1}""".format(r,sent,ex_sent,ex_output)
 
     # Feel free to modify the parameters below.
     # Documentation: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini

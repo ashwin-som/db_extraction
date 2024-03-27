@@ -342,6 +342,7 @@ def main():
                         try:
                             target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output,meaning)
                         except:
+                            print('SOMETHING WAS MESSEDUP WHILE CALLING THE API')
                             continue
                         #time.sleep(1)
                         if target_tuples_sent=='NOTHING':

@@ -111,7 +111,9 @@ def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, to
     # Generate a response
     response = model.generate_content(prompt, generation_config=generation_config)
 
-    return response.text
+    if response.content.parts:
+        return response.text
+    return None
 def gemini_api(sent,r):
     prompt_text = """Given a sentence, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output.
 
@@ -297,6 +299,8 @@ def main():
                             continue
                         print('Processing Sentence: ',sent)
                         target_tuples_sent = gemini_api(sent,relations[r])
+                        if target_tuples_sent==None:
+                            continue
                         result_tuples = process_tuples(target_tuples_sent)
                         for tup in result_tuples:
                             if tup not in output_tuples and tup[0]==relations[r]:

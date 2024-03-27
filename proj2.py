@@ -12,6 +12,7 @@ from spacy_help_functions import extract_relations,get_entities,create_entity_pa
 from example_relations import get_all_entities
 import os
 import google.generativeai as genai
+import time
 import ast
 import requests
 from collections import defaultdict
@@ -300,6 +301,7 @@ def main():
                             continue
                         #print('\t\tProcessing Sentence: ',sent)
                         target_tuples_sent = gemini_api(sent,relations[r])
+                        time.sleep(3)
                         if target_tuples_sent==None:
                             continue
                         result_tuples = process_tuples(target_tuples_sent)

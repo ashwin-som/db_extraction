@@ -118,12 +118,13 @@ def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, to
 
     return ''.join(out)
 def gemini_api(sent,r):
-    prompt_text = """Given the sentence below, extract all instances of the following relationship between a subject and object in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
+    prompt_text = """Given the sentence below, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
 
-Relationship: {0}
+    Here are some examples
+Relationship Type: {0}
 
 Output Format:
-[('RELATIONSHIP', 'SUBJECT', 'OBJECT'),...]
+[('RELATIONSHIP TYPE', 'SUBJECT', 'OBJECT'),...]
 
 Sentence: {1}""".format(r,sent)
 

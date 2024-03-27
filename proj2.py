@@ -128,7 +128,7 @@ Example Output: {3}
 Relationship Type: {0}
 
 Output Format:
-[('RELATIONSHIP TYPE', 'SUBJECT', 'OBJECT'),...]
+[('SUBJECT', 'OBJECT'),...]
 
 TARGET Sentence: {1}""".format(r,sent,ex_sent,ex_output)
 
@@ -321,16 +321,16 @@ def main():
                         ex_sent,ex_output = '',''
                         if r==1:
                             ex_sent = """Jeff Bezos attended Princeton University"""
-                            ex_output = """[('Schools_Attended'),('Jeff Bezos'),('Princeton University')]"""
+                            ex_output = """[('Jeff Bezos','Princeton University')]"""
                         elif r==2:
                             ex_sent = """Alec Radford works for OpenAI"""
-                            ex_output = """[('Works_For'),('Alec Radford'),('OpenAI')]"""
+                            ex_output = """[('Alec Radford','OpenAI')]"""
                         elif r==3:
                             ex_sent = """Mariah Carey lives in New York City"""
-                            ex_output = """[('Lives_In'),('Mariah Carey'),('New York City')]"""
+                            ex_output = """[('Mariah Carey','New York City')]"""
                         elif r==4:
                             ex_sent = """Jensen Huang is the CEO of Nvidia"""
-                            ex_output = """[('Top_Member_Employees'),('Jensen Huang'),('Nvidia')]"""
+                            ex_output = """[('Jensen Huang','Nvidia')]"""
                         try:
                             target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output)
                         except:
@@ -342,8 +342,8 @@ def main():
                         if result_tuples=='NOTHING':
                             continue
                         for tup in result_tuples:
-                            if tup not in output_tuples and tup[0]==relations[r]:
-                                q = tup[1]+' '+tup[2]
+                            if tup not in output_tuples:
+                                q = tup[0]+' '+tup[1]
                                 output_tuples.add(tup)
                                 count+=1
                                 print(count)
@@ -383,7 +383,7 @@ def main():
     if gem_span=='-gemini':
         print('\t\tAll relations for: ',relations[r])
         for tup in output_tuples:
-            print('Subject: {0} 		| Object: {1}'.format(tup[1],tup[2]))
+            print('Subject: {0} 		| Object: {1}'.format(tup[0],tup[1]))
     else:
         print("\t\tAll relations for: ", goal_relation)
         print("\t\t",len(X_extracted_tuples), "relations generated. Printing top ", k, " relations")

@@ -132,7 +132,7 @@ Sentence: {1}""".format(r,sent)
     # Documentation: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini
     model_name = 'gemini-pro'
     max_tokens = 100
-    temperature = 0.5
+    temperature = 0.2
     top_p = 1
     top_k = 32
 
@@ -310,7 +310,7 @@ def main():
                         #print('Processing Sentence: ',sent)
                         print('calling gemini')
                         target_tuples_sent = gemini_api(sent,relations[r])
-                        time.sleep(1)
+                        #time.sleep(1)
                         if target_tuples_sent=='NOTHING':
                             continue
                         result_tuples = process_tuples(target_tuples_sent)

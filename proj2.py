@@ -335,11 +335,11 @@ def main():
                         elif r==3:
                             ex_sent = """Mariah Carey lives in New York City"""
                             ex_output = """[('Mariah Carey','New York City')]"""
-                            meaning = """The SUBJECT is a PERSON. OBJECT is a LOCATION, CITY, STATE_OR_PROVINCE, or COUNTRY"""
+                            meaning = """The SUBJECT is a PERSON. OBJECT is a LOCATION, CITY, STATE_OR_PROVINCE, or COUNTRY. The SUBJECT lives in OBJECT."""
                         elif r==4:
                             ex_sent = """Jensen Huang is the head of Nvidia"""
                             ex_output = """[('Nvidia','Jensen Huang')]"""
-                            meaning = """The SUBJECT is an ORGANIZATION. The OBJECT is a PERSON."""
+                            meaning = """The SUBJECT is an ORGANIZATION. The OBJECT is a PERSON. The OBJECT works for the SUBJECT."""
                         try:
                             target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output,meaning)
                         except:

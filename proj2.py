@@ -132,7 +132,7 @@ Sentence: {1}""".format(r,sent)
     # Documentation: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini
     model_name = 'gemini-pro'
     max_tokens = 100
-    temperature = 0.2
+    temperature = 0.5
     top_p = 1
     top_k = 32
 

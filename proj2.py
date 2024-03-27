@@ -118,36 +118,7 @@ def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, to
 
     return ''.join(out)
 def gemini_api(sent,r):
-    prompt_text = """Given the sentence below, extract all instances of the following relationship in the sentence. Please learn from the examples. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
-
-(
-Training Examples:
-Example Sentence 1: Bill Gates stepped down as chairman of Microsoft in February 2014 and assumed a new post as technology adviser to support the newly appointed CEO Satya Nadella.
-
-Example Relationship 1: Works_For
-
-Example Output 1: [('Works_For', 'Satya Nadella', 'Microsoft')]
-
-Example Sentence 2: Rachel attended orientation at Yale and Harvard.
-
-Example Relationship 2: Schools_Attended
-
-Example Output 2: [('Schools_Attended', 'Rachel', 'Yale'),('Schools_Attended', 'Rachel', 'Harvard')]
-
-
-Example Sentence 3: Rachel loves her apartment in New York.
-
-Example Relationship 3: Live_In
-
-Example Output 3: [('Live_In', 'Rachel', 'New York')]
-
-
-Example Sentence 4: Sundar Pichai is the CEO of Google
-
-Example Relationship 4: Top_Members_Employees
-
-Example Output 4: [('Top_Members_Employees', 'Sundar Pichai', 'Google')]
-)
+    prompt_text = """Given the sentence below, extract all instances of the following relationship between a subject and object in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'
 
 Relationship: {0}
 
@@ -252,6 +223,7 @@ def main():
                 print('\t\t',sent_total, " sentences for this document")
                 old_val_span = len(X_extracted_tuples)
                 old_val_gem = len(output_tuples)
+                new_tup_count = 0
                 for sent in doc.sents:
                     #split the text into sentences and extract named entities -> use spaCy
                     sent_count += 1 
@@ -348,6 +320,7 @@ def main():
                                 q = tup[1]+' '+tup[2]
                                 output_tuples.add(tup)
                                 count+=1
+                                new_tup_count+=1
                                 print(count)
                         #print(target_tuples_sent)
                     else:
@@ -359,6 +332,10 @@ def main():
                     new_tuples = max(len(output_tuples) - old_val_gem,0)
                 print("\t\tNew relations extracted from this website: ",new_tuples)
         #this should be end of links 
+        if gem_span == '-gemini':
+            if new_tup_count==0:
+                print('\t\t there are no more seed tuples to be generated. Exiting program...')
+                break
         if gem_span == '-spanbert':
             #sort all the element in dictionary 
             X_extracted_tuples = dict(sorted(X_extracted_tuples.items(), key=lambda item: item[1],reverse=True))

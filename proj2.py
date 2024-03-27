@@ -327,7 +327,7 @@ def main():
                         if r==1:
                             ex_sent = """Jeff Bezos attended Princeton University"""
                             ex_output = """[('Jeff Bezos','Princeton University')]"""
-                            meaning = """The SUBJECT is a PERSON. OBJECT is an ORGANIZATION"""
+                            meaning = """The SUBJECT is a PERSON. OBJECT is an ORGANIZATION. The SUBJECT attends the OBJECT"""
                         elif r==2:
                             ex_sent = """Alec Radford works for OpenAI"""
                             ex_output = """[('Alec Radford','OpenAI')]"""

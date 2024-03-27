@@ -302,7 +302,7 @@ def main():
                         #print('\t\tProcessing Sentence: ',sent)
                         target_tuples_sent = gemini_api(sent,relations[r])
                         time.sleep(3)
-                        if target_tuples_sent==None:
+                        if target_tuples_sent=='NOTHING':
                             continue
                         result_tuples = process_tuples(target_tuples_sent)
                         for tup in result_tuples:

@@ -117,20 +117,21 @@ def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, to
         out = [part.text for part in candidate.content.parts]
 
     return ''.join(out)
-def gemini_api(sent,r,ex_sent,ex_output):
+def gemini_api(sent,r,ex_sent,ex_output,meaning):
     prompt_text = """Given the TARGET sentence below, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'. The SUBJECT should only be proper nouns.
 
 One-Shot Learning
 Example Sentence: {2}
-Example Relationship: {0}
+Example Relationship Type: {0}
 Example Output: {3}
 
 Relationship Type: {0}
+Meaning of this Relationship Type: {4}
 
 Output Format:
 [('SUBJECT', 'OBJECT'),...]
 
-TARGET Sentence: {1}""".format(r,sent,ex_sent,ex_output)
+TARGET Sentence: {1}""".format(r,sent,ex_sent,ex_output,meaning)
 
     # Feel free to modify the parameters below.
     # Documentation: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini
@@ -318,21 +319,25 @@ def main():
                         #print(candidate_pairs)
                         #print('Processing Sentence: ',sent)
                         print('calling gemini')
-                        ex_sent,ex_output = '',''
+                        ex_sent,ex_output,meaning = '','',''
                         if r==1:
                             ex_sent = """Jeff Bezos attended Princeton University"""
                             ex_output = """[('Jeff Bezos','Princeton University')]"""
+                            meaning = """The SUBJECT is a PERSON. OBJECT is an ORGANIZATION"""
                         elif r==2:
                             ex_sent = """Alec Radford works for OpenAI"""
                             ex_output = """[('Alec Radford','OpenAI')]"""
+                            meaning = """The SUBJECT is a PERSON. OBJECT is an ORGANIZATION"""
                         elif r==3:
                             ex_sent = """Mariah Carey lives in New York City"""
                             ex_output = """[('Mariah Carey','New York City')]"""
+                            meaning = """The SUBJECT is a PERSON. OBJECT is a LOCATION, CITY, STATE_OR_PROVINCE, or COUNTRY"""
                         elif r==4:
                             ex_sent = """Jensen Huang is the CEO of Nvidia"""
-                            ex_output = """[('Jensen Huang','Nvidia')]"""
+                            ex_output = """[('Nvidia','Jensen Huang')]"""
+                            meaning = """The SUBJECT is an ORGANIZATION. OBJECT is a PERSON"""
                         try:
-                            target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output)
+                            target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output,meaning)
                         except:
                             continue
                         #time.sleep(1)

@@ -381,7 +381,7 @@ def main():
                         for tup in result_tuples:
                             print('\t\t=== Extracted Relation ===')
                             print('\t\tProcessing Sentence: ',sent)
-                            print('Subject: {0} ; Object: {1} ;'.format(tup[0],tup[1]))
+                            print('\t\tSubject: {0} ; Object: {1} ;'.format(tup[0],tup[1]))
                             if tup not in output_tuples:
                                 q = tup[0]+' '+tup[1]
                                 output_tuples.add(tup)
@@ -425,7 +425,8 @@ def main():
     #for ex, pred in list(zip(candidate_pairs, relation_preds)):
             #print("\tSubject: {}\tObject: {}\tRelation: {}\tConfidence: {:.2f}".format(ex["subj"][0], ex["obj"][0], pred[0], pred[1]))
     if gem_span=='-gemini':
-        print('\t\tAll relations for: ',relations[r],'(',count,')')
+        print('================== ALL RELATIONS for {0} ( {1} ) ================='.format(relations[r],count))
+        #print('\t\tAll relations for: ',relations[r],'(',count,')')
         for tup in output_tuples:
             print('Subject: {0} 		| Object: {1}'.format(tup[0],tup[1]))
     else:
@@ -441,7 +442,7 @@ def main():
             #print("subject is ",tag[0], "and object is ", tag[1], "with a confidence of ", confidence) 
 
     
-    print("number of iterations is: ",numIterations)
+    print("Total # of iterations = ",numIterations)
 
     
 

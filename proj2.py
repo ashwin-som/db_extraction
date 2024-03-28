@@ -121,18 +121,17 @@ def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, to
 def gemini_api(sent,r,ex_sent,ex_output,meaning):
     prompt_text = """Given the TARGET sentence below, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'. The SUBJECT should only be proper nouns.
 
-One-Shot Learning
+Relationship Type: {0}
+Meaning of this Relationship Type: {4}
+
 Example Sentence: {2}
 Example Relationship Type: {0}
 Example Output: {3}
 
-Relationship Type: {0}
-Meaning of this Relationship Type: {4}
-
 Output Format:
 [('SUBJECT', 'OBJECT'),...]
 
-TARGET sentence: {1}""".format(r,sent,ex_sent,ex_output,meaning)
+TARGET Sentence: {1}""".format(r,sent,ex_sent,ex_output,meaning)
     print("THIS IS THE PROMPT:", prompt_text)
 
     # Feel free to modify the parameters below.
@@ -328,19 +327,19 @@ def main():
                         if r==1:
                             ex_sent = """Jeff Bezos is or was at Princeton University"""
                             ex_output = """[('Jeff Bezos','Princeton University')]"""
-                            meaning = """The SUBJECT is a PERSON. OBJECT is an ORGANIZATION. The SUBJECT attends the OBJECT."""
+                            meaning = """The SUBJECT attends the OBJECT."""
                         elif r==2:
                             ex_sent = """Alec Radford works for OpenAI"""
                             ex_output = """[('Alec Radford','OpenAI')]"""
-                            meaning = """The SUBJECT is a PERSON. OBJECT is an ORGANIZATION. The SUBJECT works at or contributes something to the OBJECT."""
+                            meaning = """The SUBJECT works at or contributes something to the OBJECT."""
                         elif r==3:
                             ex_sent = """Mariah Carey lives in New York City"""
                             ex_output = """[('Mariah Carey','New York City')]"""
-                            meaning = """The SUBJECT is a PERSON. OBJECT is a LOCATION, CITY, STATE_OR_PROVINCE, or COUNTRY. The SUBJECT lives in OBJECT."""
+                            meaning = """The SUBJECT has lived or resided in OBJECT."""
                         elif r==4:
                             ex_sent = """Jensen Huang is the head of Nvidia"""
                             ex_output = """[('Nvidia','Jensen Huang')]"""
-                            meaning = """The SUBJECT is an ORGANIZATION. The OBJECT is a PERSON. The OBJECT works for the SUBJECT."""
+                            meaning = """The OBJECT works for the SUBJECT."""
                         try:
                             target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output,meaning)
                         except:

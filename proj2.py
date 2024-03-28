@@ -132,6 +132,7 @@ Output Format:
 [('SUBJECT', 'OBJECT'),...]
 
 TARGET Sentence: {1}""".format(r,sent,ex_sent,ex_output,meaning)
+    print("THIS IS THE PROMPT:", prompt_text)
 
     # Feel free to modify the parameters below.
     # Documentation: https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini

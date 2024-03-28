@@ -126,7 +126,7 @@ Relationship Type: Top Member Employee
 Meaning of this Relationship Type:The OBJECT works at or contributes to the SUBJECT
 
 Example Sentence: Bill Gates leads at Microsoft
-Example Output: ﻿[('Microsoft','Bill Gates')]﻿
+Example Output: [('Microsoft','Bill Gates')]
 
 Output Format:
 [('SUBJECT', 'OBJECT'),...]

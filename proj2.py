@@ -119,19 +119,14 @@ def get_gemini_completion(prompt, model_name, max_tokens, temperature, top_p, to
 
     return ''.join(out)
 def gemini_api(sent,r,ex_sent,ex_output,meaning):
-    prompt_text = """Given the TARGET sentence below, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'. The SUBJECT should only be proper nouns.
+    prompt_text = """Given the TARGET sentence below, extract thenrelationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'. 
 
-Relationship Type: {0}
-Meaning of this Relationship Type: {4}
 
-Example Sentence: {2}
-Example Relationship Type: {0}
-Example Output: {3}
-
+Relationship: {0}
 Output Format:
 [('SUBJECT', 'OBJECT'),...]
 
-TARGET Sentence: {1}""".format(r,sent,ex_sent,ex_output,meaning)
+TARGET: {1}""".format(r,sent)
     print("THIS IS THE PROMPT:", prompt_text)
 
     # Feel free to modify the parameters below.
@@ -325,8 +320,8 @@ def main():
                         print('calling gemini')
                         ex_sent,ex_output,meaning = '','',''
                         if r==1:
-                            ex_sent = """Jeff Bezos is or was at Princeton University"""
-                            ex_output = """[('Jeff Bezos','Princeton University')]"""
+                            ex_sent = """Sergey Brin attended Stanford University"""
+                            ex_output = """[('Sergey Brin','Princeton University')]"""
                             meaning = """The SUBJECT attends the OBJECT."""
                         elif r==2:
                             ex_sent = """Alec Radford works for OpenAI"""

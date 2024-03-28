@@ -1,0 +1,196 @@
+Loading pre-trained spanBERT from ./pretrained_spanbert
+____
+Parameters:
+Client key      =  AIzaSyC0vz_nYIczwBwNupqMrNhmBm4dQbX5Pbw
+Engine key      =  7260228cc892a415a
+Gemini key      =  AIzaSyCSF9KInhX1u1vaLSrv-MCPHOCI0aCqVzQ
+Method  =  -gemini
+Relation        =  Work_For
+Threshold       =  0.0
+Query           =  bill gates microsoft
+# of Tuples     =  10
+=========== Iteration: 0 - Query: bill gates microsoft ===========
+URL ( 1 / 10 ):  https://en.wikipedia.org/wiki/Bill_Gates
+        Fetching text from url ...
+        Annotating the webpage using spacy...
+        Extracted 49 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+        Processing sentence  5  of  49  total number of sentences
+        Processing sentence  10  of  49  total number of sentences
+        Processing sentence  15  of  49  total number of sentences
+        Processing sentence  20  of  49  total number of sentences
+
+                === Extracted Relation ===
+                Processing Sentence:  The Giving Pledge OER Project Breakthrough Energy Mission Innovation  Writings "An Open Letter to Hobbyists" The Road Ahead Business @ the Speed of Thought How to Avoid a Climate Disaster How to Prevent the Next Pandemic  Related Bill Gates' flower fly Codex Leicester Lost on the Grand Banks History of Microsoft Timeline of Microsoft Paul Allen  vte William Henry Gates III (born October 28, 1955) is an American businessman, investor, philanthropist, and writer best known for co-founding the software giant Microsoft, along with his childhood friend Paul Allen.
+                Subject: William Henry Gates III ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Processing Sentence:  In 1975, he and Allen founded Microsoft in Albuquerque, New Mexico.
+                Subject: he ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+        Processing sentence  25  of  49  total number of sentences
+
+                === Extracted Relation ===
+                Processing Sentence:  In June 2008, Gates transitioned into a part-time role at Microsoft and full-time work at the Bill & Melinda Gates Foundation, the private charitable foundation he and his then-wife Melinda had established in 2000.[6]
+                Subject: Gates ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+                === Extracted Relation ===
+                Processing Sentence:  In June 2008, Gates transitioned into a part-time role at Microsoft and full-time work at the Bill & Melinda Gates Foundation, the private charitable foundation he and his then-wife Melinda had established in 2000.[6]
+                Subject: Gates ; Object: Bill & Melinda Gates Foundation ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Processing Sentence:  He stepped down as chairman of the Microsoft board in February 2014 and assumed the role of technology adviser to support newly appointed CEO Satya Nadella.[7]
+                Subject: Satya Nadella ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+        Processing sentence  30  of  49  total number of sentences
+        Processing sentence  35  of  49  total number of sentences
+        Processing sentence  40  of  49  total number of sentences
+        Processing sentence  45  of  49  total number of sentences
+        New relations extracted from this website:  5
+
+URL ( 2 / 10 ):  https://twitter.com/BillGates
+        Fetching text from url ...
+Unable to fetch URL. Continuing.
+URL ( 3 / 10 ):  https://www.instagram.com/thisisbillgates/?hl=en
+        Fetching text from url ...
+        Annotating the webpage using spacy...
+        Extracted 1 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+        New relations extracted from this website:  0
+
+URL ( 4 / 10 ):  https://news.microsoft.com/tag/bill-gates/
+        Fetching text from url ...
+Unable to fetch URL. Continuing.
+URL ( 5 / 10 ):  https://www.britannica.com/biography/Bill-Gates
+        Fetching text from url ...
+        Annotating the webpage using spacy...
+        Extracted 60 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+        Processing sentence  5  of  60  total number of sentences
+        Processing sentence  10  of  60  total number of sentences
+        Processing sentence  15  of  60  total number of sentences
+        Processing sentence  20  of  60  total number of sentences
+        Processing sentence  25  of  60  total number of sentences
+        Processing sentence  30  of  60  total number of sentences
+        Processing sentence  35  of  60  total number of sentences
+        Processing sentence  40  of  60  total number of sentences
+
+                === Extracted Relation ===
+                Processing Sentence:  However, he dropped out in his junior year to found Microsoft with his friend Paul Allen.
+                Subject: SUBJECT ; Object: OBJECT ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Processing Sentence:  What are Bill Gates s major accomplishments?Bill Gates founded the software company Microsoft Corporation with his friend Paul Allen.
+                Subject: Bill Gates ; Object: Microsoft Corporation ;
+                Adding to set of extracted relations
+
+                === Extracted Relation ===
+                Processing Sentence:  What are Bill Gates s major accomplishments?Bill Gates founded the software company Microsoft Corporation with his friend Paul Allen.
+                Subject: Bill Gates ; Object: Paul Allen ;
+                Adding to set of extracted relations
+
+        Processing sentence  45  of  60  total number of sentences
+
+                === Extracted Relation ===
+                Processing Sentence:  Bill Gates (born October 28, 1955, Seattle, Washington, U.S.) is an American computer programmer and entrepreneur who cofounded Microsoft Corporation, the world s largest personal-computer software company.
+                Subject: Bill Gates ; Object: Microsoft Corporation ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Processing Sentence:  In 1975 Gates, then a sophomore at Harvard University, joined his hometown friend Paul G. Allen to develop software for the first microcomputers.
+                Subject: Gates ; Object: Harvard University ;
+                Adding to set of extracted relations
+
+                === Extracted Relation ===
+                Processing Sentence:  In 1975 Gates, then a sophomore at Harvard University, joined his hometown friend Paul G. Allen to develop software for the first microcomputers.
+                Subject: Gates ; Object: Paul G. Allen ;
+                Adding to set of extracted relations
+
+        Processing sentence  50  of  60  total number of sentences
+
+                === Extracted Relation ===
+                Processing Sentence:  With the success of this project, Gates left Harvard during his junior year and, with Allen, formed Microsoft.
+                Subject: Gates ; Object: Harvard ;
+                Adding to set of extracted relations
+
+                === Extracted Relation ===
+                Processing Sentence:  With the success of this project, Gates left Harvard during his junior year and, with Allen, formed Microsoft.
+                Subject: Gates ; Object: Allen ;
+                Adding to set of extracted relations
+
+                === Extracted Relation ===
+                Processing Sentence:  With the success of this project, Gates left Harvard during his junior year and, with Allen, formed Microsoft.
+                Subject: Gates ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+        Processing sentence  55  of  60  total number of sentences
+        Processing sentence  60  of  60  total number of sentences
+        New relations extracted from this website:  7
+
+URL ( 6 / 10 ):  https://www.linkedin.com/in/williamhgates
+        Fetching text from url ...
+Unable to fetch URL. Continuing.
+URL ( 7 / 10 ):  https://www.hindustantimes.com/business/who-is-bill-gates-girlfriend-paula-hurd-with-whom-he-attended-anant-ambani-radhika-merchant-pre-wedding-celebrations-101709711700593.html
+        Fetching text from url ...
+Unable to fetch URL. Continuing.
+URL ( 8 / 10 ):  https://www.forbes.com/profile/bill-gates/
+        Fetching text from url ...
+        Annotating the webpage using spacy...
+        Extracted 36 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+        Processing sentence  5  of  36  total number of sentences
+        Processing sentence  10  of  36  total number of sentences
+
+                === Extracted Relation ===
+                Processing Sentence:  Bill GatesRelated People & CompaniesWarren BuffettFriendView ProfileMicrosoftHolds stake in MicrosoftView ProfileHarvard UniversityAttended
+                Subject: Bill Gates ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+                === Extracted Relation ===
+                Processing Sentence:  Bill GatesRelated People & CompaniesWarren BuffettFriendView ProfileMicrosoftHolds stake in MicrosoftView ProfileHarvard UniversityAttended
+                Subject: Bill Gates ; Object: Harvard University ;
+                Adding to set of extracted relations
+
+        Processing sentence  15  of  36  total number of sentences
+        Processing sentence  20  of  36  total number of sentences
+        Processing sentence  25  of  36  total number of sentences
+        Processing sentence  30  of  36  total number of sentences
+        Processing sentence  35  of  36  total number of sentences
+        New relations extracted from this website:  2
+
+URL ( 9 / 10 ):  https://answers.microsoft.com/en-us/outlook_com/forum/all/microsoft-and-bill-gates-are-so-damn-screwed-up/cd76d0e2-ece4-45db-8886-00d557d593e2
+        Fetching text from url ...
+        Annotating the webpage using spacy...
+        Extracted 1 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+        New relations extracted from this website:  0
+
+URL ( 10 / 10 ):  https://www.gatesnotes.com/The-Age-of-AI-Has-Begun
+        Fetching text from url ...
+Unable to fetch URL. Continuing.
+================== ALL RELATIONS for Work_For ( 14 ) =================
+Subject: Bill Gates             | Object: Microsoft Corporation
+Subject: Gates          | Object: Paul G. Allen
+Subject: Bill Gates             | Object: Harvard University
+Subject: Satya Nadella          | Object: Microsoft
+Subject: Gates          | Object: Allen
+Subject: Bill Gates             | Object: Microsoft
+Subject: Gates          | Object: Harvard
+Subject: Gates          | Object: Bill & Melinda Gates Foundation
+Subject: William Henry Gates III                | Object: Microsoft
+Subject: Gates          | Object: Harvard University
+Subject: Bill Gates             | Object: Paul Allen
+Subject: SUBJECT                | Object: OBJECT
+Subject: he             | Object: Microsoft
+Subject: Gates          | Object: Microsoft
+Total # of iterations =  1

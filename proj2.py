@@ -431,7 +431,7 @@ def main():
             print('Subject: {0} 		| Object: {1}'.format(tup[0],tup[1]))
     else:
         print("\t\tAll relations for: ", goal_relation)
-        print("\t\t",len(X_extracted_tuples), "relations generated. Printing top ", k, " relations")
+        print("\t\t",len(X_extracted_tuples), "relations generated.")
         count = 0
         for tag,confidence in X_extracted_tuples.items():
             count += 1

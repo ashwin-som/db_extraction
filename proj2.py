@@ -157,9 +157,9 @@ def main():
     #key = "AIzaSyC0vz_nYIczwBwNupqMrNhmBm4dQbX5Pbw"
     #id = "7260228cc892a415a"
     relations = {
-    1:'Schools_Attended',
+    1:'school attended',
     2:'Work_For',
-    3:'Live_In',
+    3:'live in',
     4:'Top_Member_Employees',
     }
     i = 1 

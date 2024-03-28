@@ -400,7 +400,7 @@ def main():
     #for ex, pred in list(zip(candidate_pairs, relation_preds)):
             #print("\tSubject: {}\tObject: {}\tRelation: {}\tConfidence: {:.2f}".format(ex["subj"][0], ex["obj"][0], pred[0], pred[1]))
     if gem_span=='-gemini':
-        print('\t\tAll relations for: ',relations[r])
+        print('\t\tAll relations for: ',relations[r],'(',count,')')
         for tup in output_tuples:
             print('Subject: {0} 		| Object: {1}'.format(tup[0],tup[1]))
     else:

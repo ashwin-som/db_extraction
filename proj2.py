@@ -152,11 +152,11 @@ TARGET: {1}""".format(r,sent)
     top_k = 32
 
     response_text = get_gemini_completion(prompt_text, model_name, max_tokens, temperature, top_p, top_k)
-    print('THE GEMINI MODEL HAS RETURNED: ',response_text)
+    #print('THE GEMINI MODEL HAS RETURNED: ',response_text)
     return response_text
 
 def process_tuples(sent):
-    print('TRYING TO PROCESS THIS: ',sent)
+    #print('TRYING TO PROCESS THIS: ',sent)
     try:
         tuples = ast.literal_eval(sent)
         return tuples
@@ -264,6 +264,7 @@ def main():
                 old_val_span = len(X_extracted_tuples)
                 old_val_gem = len(output_tuples)
                 #new_tup_count = 0
+                print()
                 for sent in doc.sents:
                     #split the text into sentences and extract named entities -> use spaCy
                     sent_count += 1 
@@ -376,6 +377,7 @@ def main():
                         result_tuples = process_tuples(target_tuples_sent)
                         if result_tuples=='NOTHING':
                             continue
+                        print()
                         for tup in result_tuples:
                             print('\t\t=== Extracted Relation ===')
                             print('\t\tProcessing Sentence: ',sent)
@@ -387,6 +389,7 @@ def main():
                                 print('\t\tAdding to set of extracted relations')
                             else:
                                 print('\t\tDuplicate. Ignoring this.')
+                            print()
                         #print(target_tuples_sent)
                     else:
                         print("\t\twrong type input")
@@ -396,6 +399,7 @@ def main():
                 else: #is gemini
                     new_tuples = max(len(output_tuples) - old_val_gem,0)
                 print("\tNew relations extracted from this website: ",new_tuples)
+                print()
         #this should be end of links 
         
         if gem_span == '-spanbert':

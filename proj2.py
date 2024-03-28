@@ -206,9 +206,25 @@ def main():
     #print("gemini or spam is", gem_span)
     numIterations = 0
     prevQuery = ''
+    actualRelations = {
+        1:'Schools_Attended',
+        2:'Work_For',
+        3:'Live_In',
+        4:'Top_Member_Employees',
+    }
+    print('____')
+    print('Parameters:')
+    print('Client key	= ',google_api)
+    print('Engine key	= ',google_engine)
+    print('Gemini key	= ',google_gemini_id)
+    print('Method	= ',gem_span)
+    print('Relation	= ',actualRelations[r])
+    print('Threshold	= ',t)
+    print('Query		= ',q)
+    print('# of Tuples	= ',k)
     while (count<k and gem_span == '-gemini') or  (len(X_extracted_tuples) < k and gem_span == '-spanbert'):
+        print("=========== Iteration: {0} - Query: {1} ===========".format(numIterations,q))
         numIterations+=1
-        print('\t\tquery:',q)
         if prevQuery==q:
             break
         else:
@@ -228,10 +244,10 @@ def main():
                 explored_urls.add(link)
                 #now extract webpage, as long as no timeoute 
                 #with open(link) as fp:
-                print("\t\tlink has not been looked at yet, fetching text from url...")
+                print("\tFetching text from url ...")
                 content = requests.get(link)
                 if content.status_code != 200: #make sure not nothing 
-                    print("\t\tthis webpage is not able to be opened")
+                    print("Unable to fetch URL. Continuing.")
                     continue
                 #if content
                 html_stuff = content.text
@@ -240,11 +256,11 @@ def main():
                 soup = BeautifulSoup(html_stuff, 'html.parser')
                 #use beautiful soup to get text (only first 10,000 chars)
                 text = soup.get_text()[0:10000]
-                print("\t\tAnnotating the webpage using spacy...")
+                print("\tAnnotating the webpage using spacy...")
                 doc = nlp(text)
                 sent_count = 0
                 sent_total = sum(1 for _ in doc.sents)
-                print('\t\t',sent_total, " sentences for this document")
+                print('\tExtracted {0} sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...'.format(sent_total))
                 old_val_span = len(X_extracted_tuples)
                 old_val_gem = len(output_tuples)
                 #new_tup_count = 0
@@ -252,7 +268,7 @@ def main():
                     #split the text into sentences and extract named entities -> use spaCy
                     sent_count += 1 
                     if sent_count%5 ==0:
-                        print("\t\tProcessing sentence ",sent_count," of ", sent_total, " total number of sentences")
+                        print("\tProcessing sentence ",sent_count," of ", sent_total, " total number of sentences")
                     if gem_span == '-spanbert':
                         #spanbert = SpanBERT("./pretrained_spanbert") 
                         entities_of_interest_schools = ["ORGANIZATION", "PERSON"]
@@ -352,7 +368,7 @@ def main():
                         try:
                             target_tuples_sent = gemini_api(sent,relations[r],ex_sent,ex_output,meaning)
                         except:
-                            print('SOMETHING WAS MESSEDUP WHILE CALLING THE API')
+                            print('SOMETHING WAS MESSED UP WHILE CALLING THE API')
                             continue
                         #time.sleep(1)
                         if target_tuples_sent=='NOTHING':
@@ -361,11 +377,16 @@ def main():
                         if result_tuples=='NOTHING':
                             continue
                         for tup in result_tuples:
+                            print('\t\t=== Extracted Relation ===')
+                            print('\t\tProcessing Sentence: ',sent)
+                            print('Subject: {0} ; Object: {1} ;'.format(tup[0],tup[1]))
                             if tup not in output_tuples:
                                 q = tup[0]+' '+tup[1]
                                 output_tuples.add(tup)
                                 count+=1
-                                print(count)
+                                print('\t\tAdding to set of extracted relations')
+                            else:
+                                print('\t\tDuplicate. Ignoring this.')
                         #print(target_tuples_sent)
                     else:
                         print("\t\twrong type input")
@@ -374,7 +395,7 @@ def main():
                     new_tuples = max(len(X_extracted_tuples) - old_val_span ,0)
                 else: #is gemini
                     new_tuples = max(len(output_tuples) - old_val_gem,0)
-                print("\t\tNew relations extracted from this website: ",new_tuples)
+                print("\tNew relations extracted from this website: ",new_tuples)
         #this should be end of links 
         
         if gem_span == '-spanbert':

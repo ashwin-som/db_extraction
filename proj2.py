@@ -332,7 +332,7 @@ def main():
                         elif r==2:
                             ex_sent = """Alec Radford works for OpenAI"""
                             ex_output = """[('Alec Radford','OpenAI')]"""
-                            meaning = """The SUBJECT is a PERSON. OBJECT is an ORGANIZATION. The SUBJECT works for the OBJECT."""
+                            meaning = """The SUBJECT is a PERSON. OBJECT is an ORGANIZATION. The SUBJECT works at or contributes something to the OBJECT."""
                         elif r==3:
                             ex_sent = """Mariah Carey lives in New York City"""
                             ex_output = """[('Mariah Carey','New York City')]"""

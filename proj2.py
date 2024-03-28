@@ -126,7 +126,7 @@ Meaning of this Relationship Type: The OBJECT works for or contributes to the SU
 
 Example Sentence: Jensen Huang is the head of Nvidia
 Example Relationship Type: Top_Member_Employees
-Example Output: ﻿[('Nvidia','Jensen Huang')]﻿
+Example Output: [('Nvidia','Jensen Huang')]
 
 Output Format:
 [('SUBJECT', 'OBJECT'),...]

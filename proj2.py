@@ -122,16 +122,16 @@ def gemini_api(sent,r,ex_sent,ex_output,meaning):
     if r==4:
         prompt_text ="""Given the TARGET sentence below, extract all instances of the following relationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'. The SUBJECT should only be proper nouns.
 
-Relationship Type: Top Member Employee
-Meaning of this Relationship Type:The OBJECT works at or contributes to the SUBJECT
+Meaning of this Relationship Type: The OBJECT works for or contributes to the SUBJECT."
 
-Example Sentence: Bill Gates leads at Microsoft
-Example Output: [('Microsoft','Bill Gates')]
+Example Sentence: Jensen Huang is the head of Nvidia
+Example Relationship Type: Top_Member_Employees
+Example Output: ﻿[('Nvidia','Jensen Huang')]﻿
 
 Output Format:
 [('SUBJECT', 'OBJECT'),...]
 
-TARGET Sentence: {0}""".format(sent)
+TARGET: {0}""".format(sent)
     else:
         prompt_text = """Given the TARGET sentence below, extract thenrelationship type you can find in the sentence. Do not provide any explanation except the output. If you are not able to parse any relationships, then return this string: 'NOTHING'. 
 

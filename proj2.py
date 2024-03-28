@@ -326,7 +326,7 @@ def main():
                         print('calling gemini')
                         ex_sent,ex_output,meaning = '','',''
                         if r==1:
-                            ex_sent = """Jeff Bezos attended Princeton University"""
+                            ex_sent = """Jeff Bezos is or was at Princeton University"""
                             ex_output = """[('Jeff Bezos','Princeton University')]"""
                             meaning = """The SUBJECT is a PERSON. OBJECT is an ORGANIZATION. The SUBJECT attends the OBJECT."""
                         elif r==2:

@@ -174,7 +174,7 @@ def main():
     1:'school attended',
     2:'Work_For',
     3:'live in',
-    4:'Top_Member_Employees',
+    4:4,
     }
     i = 1 
     google_api = sys.argv[0+i]
